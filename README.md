@@ -41,7 +41,9 @@ Control is achieved via a **glove-based gesture system**, equipped with **flex s
 ---
 
 ## ⚙️ Installation Instructions  
-🛠️ *Installation instructions will be provided soon.*  
+<!-- 🛠️ *Installation instructions will be provided soon.*   -->
+🛠️ For installation instructions and to download the Arduino IDE, visit the [Arduino IDE Download Page](https://www.arduino.cc/en/software).
+
 
 ---
 
