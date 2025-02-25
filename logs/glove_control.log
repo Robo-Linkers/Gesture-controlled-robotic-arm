@@ -1,0 +1,12 @@
+@mpu_conversion_code
+
+WARNING: library Servo claims to run on avr, megaavr, sam, samd, nrf52, stm32f4, mbed, mbed_nano, mbed_portenta, mbed_rp2040, renesas, renesas_portenta, renesas_uno architecture(s) and may be incompatible with your current board which runs on esp32 architecture(s).
+In file included from C:\Users\GNKRISHNAN\Documents\IoRT\Kodes\Gesture_Controlled_Robotic_Arm\Final\Glove\Glove.ino:3:
+C:\Users\GNKRISHNAN\AppData\Local\Arduino15\libraries\Servo\src/Servo.h:81:2: error: #error "This library only supports boards with an AVR, SAM, SAMD, NRF52, STM32F4, Renesas or XMC processor."
+   81 | #error "This library only supports boards with an AVR, SAM, SAMD, NRF52, STM32F4, Renesas or XMC processor."
+      |  ^~~~~
+exit status 1
+
+Compilation error: exit status 1
+
+will need to shift towards esp32servo library, need to change wrapper functions so as to write angles and communicate with power_drive board.
