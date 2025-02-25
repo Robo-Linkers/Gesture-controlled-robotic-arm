@@ -3,7 +3,7 @@
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_MPU6050.h>
-#include <Adafruit_PCA9685.h>
+#include <Adafruit_PWMServoDriver.h>
 
 // Wi-Fi and MQTT Credentials
 const char* ssid = "Your_SSID";
@@ -45,7 +45,7 @@ const unsigned long idleTimeout = 10000; // 10 seconds
 // Global Variables
 int gestureCode = 0;
 Adafruit_MPU6050 mpu;
-Adafruit_PCA9685 pwm = Adafruit_PCA9685();
+Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 
 // Function Prototypes
 void connectToWiFi(void);
