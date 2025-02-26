@@ -69,28 +69,31 @@ Control is achieved via a **glove-based gesture system**, equipped with **flex s
 │   ├── DESIGN.MD
 │   ├── Schematic_Glove-Robotic-Arm_2025-01-13.pdf
 │   └── Schematic_Power-Drive-Controlled-Robotic-Arm_2025-01-13.pdf
+├── logs
+│   ├── glove_control.log
+│   └── power_drive.log
 ├── src
 │   ├── motionctrl_cmdprocess.cpp
 │   └── mpu_conversion_code.cpp
-└── tests
-    ├── Embedded Systems
-    │   ├── COMPLETE
-    │   │   └── COMPLETE.ino
-    │   ├── DUAL-MPU6050
-    │   │   └── DUAL-MPU6050.ino
-    │   └── FLEX-SENSORS
-    │       └── FLEX-SENSORS.ino
-    └── Power Electronics
-        ├── complete-dynamic
-        │   └── complete-dynamic.ino
-        ├── complete
-        │   └── complete.ino
-        ├── nema_17_test
-        │   └── nema_17_test.ino
-        └── servo_test
-            └── servo_test.ino
+├── tests
+│   ├── Embedded Systems
+│   │   ├── COMPLETE
+│   │   │   └── COMPLETE.ino
+│   │   ├── DUAL-MPU6050
+│   │   │   └── DUAL-MPU6050.ino
+│   │   └── FLEX-SENSORS
+│   │       └── FLEX-SENSORS.ino
+│   ├── Power Electronics
+│   │   ├── complete-dynamic
+│   │   │   └── complete-dynamic.ino
+│   │   ├── complete
+│   │   │   └── complete.ino
+│   │   ├── nema_17_test
+│   │   │   └── nema_17_test.ino
+│   │   └── servo_test
+│   │       └── servo_test.ino
+│   └── TESTS.MD
 
-└── tests/TESTS.MD 
 ```
 ---
 
