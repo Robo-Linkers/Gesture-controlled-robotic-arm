@@ -17,18 +17,20 @@ const char* mqttPassword = "Your_MQTT_Password";
 WiFiClient espClient;
 PubSubClient mqttClient(espClient);
 
-// Pin Definitions for Sensors
+// Pin Definitions
 #define FLEX_SENSOR_PIN A0
 #define TOUCH_SENSOR_PIN 4
 #define MPU_SDA 21
 #define MPU_SCL 22
 #define PCA9685_SDA 21
 #define PCA9685_SCL 22
+#define WIFI_LED 2 // LED to indicate WiFi connection
+#define MQTT_LED 5 // LED to indicate MQTT connection
 
 // PCA9685 Configuration
 #define PCA9685_I2C_ADDRESS 0x40
-#define SERVO_MIN 150 // Minimum pulse length count
-#define SERVO_MAX 600 // Maximum pulse length count
+#define SERVO_MIN 150
+#define SERVO_MAX 600
 
 // Gesture Codes
 #define GESTURE_FIST 0x01
@@ -36,11 +38,14 @@ PubSubClient mqttClient(espClient);
 #define GESTURE_LEFT 0x03
 #define GESTURE_RIGHT 0x04
 
-// Timing for non-blocking delay and idle state
+// Timing
 unsigned long lastReadTime = 0;
-unsigned long lastCommandTime = 0;
-const unsigned long readInterval = 500; // 500 ms interval
-const unsigned long idleTimeout = 10000; // 10 seconds
+const unsigned long readInterval = 500;
+
+// Movement Thresholds
+#define WRIST_SPEED_THRESHOLD 3.0
+#define BASE_MOVEMENT_THRESHOLD 1.5
+#define ELBOW_MOVEMENT_THRESHOLD 3.0
 
 // Global Variables
 int gestureCode = 0;
@@ -48,45 +53,27 @@ Adafruit_MPU6050 mpu;
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 
 // Function Prototypes
-void connectToWiFi(void);
-void ensureWiFiConnection(void);
-void connectToMQTT(void);
-void ensureMQTTConnection(void);
-int readFlexSensor(void);
-void readMPU6050(int* orientationCode);
+void connectToWiFi();
+void ensureWiFiConnection();
+void connectToMQTT();
+void ensureMQTTConnection();
+int readFlexSensor();
+void readMPU6050(float* accelX, float* accelY, float* accelZ);
 int debounceTouchSensor(int pin);
-void combineGestureCodes(int flexCode, int orientationCode, int touchCode, int* gestureCode);
+void combineGestureCodes(int flexCode, float accelX, float accelY, float accelZ, int* gestureCode);
 void sendGestureCode(int gestureCode);
 void controlServoMotor(int channel, int angle);
-void moveArm(int baseAngle, int shoulderAngle, int elbowAngle);
-void disableUnusedComponents(void);
-void debugSensors(int flexCode, int orientationCode, int touchCode);
-
-// MQTT Callback Function
-void mqttCallback(char* topic, byte* message, unsigned int length) {
-    lastCommandTime = millis(); // Reset idle timer
-    char command = message[0];
-    if (command == GESTURE_FIST) {
-        controlServoMotor(0, 90); // Grip
-    } else if (command == GESTURE_OPEN_HAND) {
-        controlServoMotor(0, 0); // Release
-    } else if (command == GESTURE_LEFT) {
-        moveArm(90, 45, 30); // Example movement
-    }
-}
+void moveArm(float accelX, float accelY, float accelZ);
+void updateLEDs();
 
 void setup() {
     Serial.begin(115200);
-
-    // Initialize WiFi
+    pinMode(WIFI_LED, OUTPUT);
+    pinMode(MQTT_LED, OUTPUT);
+    digitalWrite(WIFI_LED, LOW);
+    digitalWrite(MQTT_LED, LOW);
     connectToWiFi();
-
-    // Initialize MQTT
-    mqttClient.setServer(mqttServer, mqttPort);
-    mqttClient.setCallback(mqttCallback);
     connectToMQTT();
-
-    // Initialize MPU6050
     if (!mpu.begin()) {
         Serial.println("Failed to find MPU6050 chip.");
         while (1);
@@ -94,48 +81,33 @@ void setup() {
     mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
     mpu.setGyroRange(MPU6050_RANGE_500_DEG);
     mpu.setFilterBandwidth(MPU6050_BAND_21_HZ);
-
-    // Initialize PCA9685 Servo Driver
     pwm.begin();
-    pwm.setPWMFreq(60); // Set frequency to 60 Hz
+    pwm.setPWMFreq(60);
 }
 
 void loop() {
     ensureWiFiConnection();
     ensureMQTTConnection();
-
+    updateLEDs();
     unsigned long currentTime = millis();
-
-    if (currentTime - lastCommandTime >= idleTimeout) {
-        disableUnusedComponents();
-    }
-
     if (currentTime - lastReadTime >= readInterval) {
         lastReadTime = currentTime;
-
         int flexCode = readFlexSensor();
-        int orientationCode;
-        readMPU6050(&orientationCode);
+        float accelX, accelY, accelZ;
+        readMPU6050(&accelX, &accelY, &accelZ);
         int touchCode = debounceTouchSensor(TOUCH_SENSOR_PIN);
-
-        combineGestureCodes(flexCode, orientationCode, touchCode, &gestureCode);
-        debugSensors(flexCode, orientationCode, touchCode);
-
+        combineGestureCodes(flexCode, accelX, accelY, accelZ, &gestureCode);
         sendGestureCode(gestureCode);
+        moveArm(accelX, accelY, accelZ);
     }
-
     mqttClient.loop();
 }
 
 void connectToWiFi() {
-    Serial.print("Connecting to Wi-Fi: ");
-    Serial.println(ssid);
     WiFi.begin(ssid, password);
     while (WiFi.status() != WL_CONNECTED) {
         delay(500);
-        Serial.print(".");
     }
-    Serial.println("\nWi-Fi Connected.");
 }
 
 void ensureWiFiConnection() {
@@ -146,13 +118,9 @@ void ensureWiFiConnection() {
 
 void connectToMQTT() {
     while (!mqttClient.connected()) {
-        Serial.print("Connecting to MQTT...");
         if (mqttClient.connect("ESP32", mqttUser, mqttPassword)) {
-            Serial.println("Connected to MQTT Broker.");
             mqttClient.subscribe("robotic_arm/commands");
         } else {
-            Serial.print("Failed. State=");
-            Serial.println(mqttClient.state());
             delay(2000);
         }
     }
@@ -164,57 +132,42 @@ void ensureMQTTConnection() {
     }
 }
 
-int readFlexSensor() {
-    int value = analogRead(FLEX_SENSOR_PIN);
-    if (value < 500) {
-        return GESTURE_FIST;
-    } else {
-        return GESTURE_OPEN_HAND;
-    }
+void updateLEDs() {
+    digitalWrite(WIFI_LED, WiFi.status() == WL_CONNECTED ? HIGH : LOW);
+    digitalWrite(MQTT_LED, mqttClient.connected() ? HIGH : LOW);
 }
 
-void readMPU6050(int* orientationCode) {
+int readFlexSensor() {
+    int value = analogRead(FLEX_SENSOR_PIN);
+    return (value < 500) ? GESTURE_FIST : GESTURE_OPEN_HAND;
+}
+
+void readMPU6050(float* accelX, float* accelY, float* accelZ) {
     sensors_event_t a, g, temp;
     mpu.getEvent(&a, &g, &temp);
-    if (a.acceleration.x > 1.0) {
-        *orientationCode = GESTURE_LEFT;
-    } else if (a.acceleration.x < -1.0) {
-        *orientationCode = GESTURE_RIGHT;
-    } else {
-        *orientationCode = 0x00; // No tilt
-    }
+    *accelX = a.acceleration.x;
+    *accelY = a.acceleration.y;
+    *accelZ = a.acceleration.z;
 }
 
 int debounceTouchSensor(int pin) {
     int stableValue = digitalRead(pin);
     delay(50);
-    if (digitalRead(pin) == stableValue) {
-        return stableValue;
-    }
-    return LOW;
+    return (digitalRead(pin) == stableValue) ? stableValue : LOW;
 }
 
-void combineGestureCodes(int flexCode, int orientationCode, int touchCode, int* gestureCode) {
-    if (touchCode == HIGH) {
-        if (flexCode == GESTURE_FIST) {
-            *gestureCode = GESTURE_FIST;
-        } else if (flexCode == GESTURE_OPEN_HAND) {
-            *gestureCode = GESTURE_OPEN_HAND;
-        }
-    } else {
-        *gestureCode = orientationCode;
+void combineGestureCodes(int flexCode, float accelX, float accelY, float accelZ, int* gestureCode) {
+    if (flexCode == GESTURE_FIST && accelX > BASE_MOVEMENT_THRESHOLD) {
+        *gestureCode = GESTURE_LEFT;
+    } else if (flexCode == GESTURE_OPEN_HAND && accelX < -BASE_MOVEMENT_THRESHOLD) {
+        *gestureCode = GESTURE_RIGHT;
     }
 }
 
 void sendGestureCode(int gestureCode) {
     char msg[10];
     snprintf(msg, sizeof(msg), "0x%02X", gestureCode);
-    if (!mqttClient.publish("robotic_arm/gestures", msg)) {
-        Serial.println("Failed to publish gesture code!");
-    } else {
-        Serial.print("Published gesture code: ");
-        Serial.println(msg);
-    }
+    mqttClient.publish("robotic_arm/gestures", msg);
 }
 
 void controlServoMotor(int channel, int angle) {
@@ -222,20 +175,21 @@ void controlServoMotor(int channel, int angle) {
     pwm.setPWM(channel, 0, pulseWidth);
 }
 
-void moveArm(int baseAngle, int shoulderAngle, int elbowAngle) {
-    controlServoMotor(0, baseAngle);    // Base servo
-    controlServoMotor(1, shoulderAngle); // Shoulder servo
-    controlServoMotor(2, elbowAngle);   // Elbow servo
-}
-
-void disableUnusedComponents() {
-    for (int channel = 0; channel < 16; channel++) {
-        pwm.setPWM(channel, 0, 0); // Disable all servos
+void moveArm(float accelX, float accelY, float accelZ) {
+    if (fabs(accelX) > WRIST_SPEED_THRESHOLD) {
+        return;
     }
-}
 
-void debugSensors(int flexCode, int orientationCode, int touchCode) {
-    Serial.print("Flex Code: "); Serial.print(flexCode);
-    Serial.print(", Orientation Code: "); Serial.print(orientationCode);
-    Serial.print(", Touch Code: "); Serial.println(touchCode);
+    int baseAngle = map(accelX, -8, 8, 0, 180);
+    controlServoMotor(0, baseAngle);
+
+    if (fabs(accelX) > BASE_MOVEMENT_THRESHOLD) {
+        int shoulderAngle = map(accelY, -8, 8, 0, 180);
+        controlServoMotor(1, shoulderAngle);
+    }
+
+    if (fabs(accelX) > ELBOW_MOVEMENT_THRESHOLD) {
+        int elbowAngle = map(accelZ, -8, 8, 0, 180);
+        controlServoMotor(2, elbowAngle);
+    }
 }
