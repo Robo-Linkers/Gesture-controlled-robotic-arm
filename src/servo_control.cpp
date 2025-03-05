@@ -34,7 +34,7 @@ void setup() {
     pwm.setPWMFreq(50);  // Standard servo frequency (50Hz)
 
     // Connect to WiFi and MQTT
-    WiFi.begin("Your_SSID", "Your_PASSWORD");
+    WiFi.begin("Wokwi-GUEST", "");
     mqttClient.setServer("broker.emqx.io", 1883);
     mqttClient.setCallback(mqttCallback);
     
@@ -78,10 +78,11 @@ void mqttCallback(char* topic, byte* message, unsigned int length) {
 void parseAndProcessData(String data) {
     float angleX = 0, angleY = 0;
     sscanf(data.c_str(), "X:%f,Y:%f", &angleX, &angleY);
-
     // Process angles
     if (angleX > 30) shoulderAngle = constrain(shoulderAngle + 2, 0, 180);
     else if (angleX < -30) shoulderAngle = constrain(shoulderAngle - 2, 0, 180);
+    Serial.println(angleX);
+    Serial.println(angleY);
 
     if (angleY > 30) elbowAngle = constrain(elbowAngle + 2, 0, 180);
     else if (angleY < -30) elbowAngle = constrain(elbowAngle - 2, 0, 180);
