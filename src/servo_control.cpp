@@ -34,7 +34,7 @@ void setup() {
     pwm.setPWMFreq(50);  // Standard servo frequency (50Hz)
 
     // Connect to WiFi and MQTT
-    WiFi.begin("Wokwi-GUEST", "");
+    WiFi.begin("WIFI-SSD", "WIFI-PSSW");
     mqttClient.setServer("broker.emqx.io", 1883);
     mqttClient.setCallback(mqttCallback);
     
@@ -55,7 +55,7 @@ void loop() {
 void connectToMQTT() {
     while (!mqttClient.connected()) {
         Serial.print("Connecting to MQTT...");
-        if (mqttClient.connect("ESP32", "Your_MQTT_Username", "Your_MQTT_Password")) {
+        if (mqttClient.connect("ESP32_SUB", "Your_MQTT_Username", "Your_MQTT_Password")) {
             Serial.println("Connected to MQTT Broker.");
             mqttClient.subscribe("sensor/angles");
         } else {
