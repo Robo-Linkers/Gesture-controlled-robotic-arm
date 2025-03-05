@@ -45,6 +45,7 @@ void setup() {
         Serial.println("MPU6050 initialization failed!");
         while (1);
     }
+    mqttClient.setServer("broker.emqx.io", 1883);
     connectToWiFi();
     connectToMQTT();
 }
