@@ -1,13 +1,21 @@
-#include <Adafruit_Servo.h>
-#include <AccelStepper.h>
+#include <Wire.h>
+#include <Adafruit_PWMServoDriver.h>
+#include <WiFi.h>
+#include <PubSubClient.h>
 
-// Servo objects
-Servo baseServo, shoulderServo, elbowServo, wristServo;
+// Create the PWM driver instance
+Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x40);
 
-// Servo angles
+// Servo channels on PCA9685
+#define BASE_SERVO 0
+#define SHOULDER_SERVO 1
+#define ELBOW_SERVO 2
+#define WRIST_SERVO 3
+
+// Servo angle variables
 int baseAngle = 90, shoulderAngle = 90, elbowAngle = 90, wristAngle = 90;
 
-// MQTT Client
+// WiFi and MQTT Client
 WiFiClient espClient;
 PubSubClient mqttClient(espClient);
 
@@ -15,19 +23,27 @@ PubSubClient mqttClient(espClient);
 void updateServos();
 void mqttCallback(char* topic, byte* message, unsigned int length);
 void parseAndProcessData(String data);
+int angleToPulse(int angle);
 
 void setup() {
     Serial.begin(115200);
+    Wire.begin();
 
-    // Attach servos to respective pins
-    baseServo.attach(9);
-    shoulderServo.attach(10);
-    elbowServo.attach(11);
-    wristServo.attach(12);
+    // Initialize PCA9685
+    pwm.begin();
+    pwm.setPWMFreq(50);  // Standard servo frequency (50Hz)
 
-    // Initialize MQTT
+    // Connect to WiFi and MQTT
+    WiFi.begin("Your_SSID", "Your_PASSWORD");
     mqttClient.setServer("broker.emqx.io", 1883);
     mqttClient.setCallback(mqttCallback);
+    
+    while (WiFi.status() != WL_CONNECTED) {
+        Serial.print(".");
+        delay(500);
+    }
+    Serial.println("WiFi connected!");
+
     connectToMQTT();
     updateServos();
 }
@@ -74,8 +90,14 @@ void parseAndProcessData(String data) {
 }
 
 void updateServos() {
-    baseServo.write(baseAngle);
-    shoulderServo.write(shoulderAngle);
-    elbowServo.write(elbowAngle);
-    wristServo.write(wristAngle);
+    pwm.setPWM(BASE_SERVO, 0, angleToPulse(baseAngle));
+    pwm.setPWM(SHOULDER_SERVO, 0, angleToPulse(shoulderAngle));
+    pwm.setPWM(ELBOW_SERVO, 0, angleToPulse(elbowAngle));
+    pwm.setPWM(WRIST_SERVO, 0, angleToPulse(wristAngle));
+}
+
+// Convert angle (0-180) to PWM pulse (servo range: 500-2500µs)
+int angleToPulse(int angle) {
+    int pulse = map(angle, 0, 180, 150, 600);  // 150-600 is a good range for most servos
+    return pulse;
 }
