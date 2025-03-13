@@ -37,6 +37,9 @@ void ensureMQTTConnection();
 void kalmanFilter(float &angle, float &bias, float newAngle, float newRate);
 void sendAnglesToMQTT(float angleX, float angleY);
 
+unsigned long previousMillis = 0;
+const long interval = 1000; // Interval for publishing data (in milliseconds)
+
 void setup() {
     Serial.begin(115200);
     Wire.begin();
@@ -54,26 +57,30 @@ void loop() {
     ensureWiFiConnection();
     ensureMQTTConnection();
 
-    int16_t ax, ay, az, gx, gy, gz;
-    mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
+    unsigned long currentMillis = millis();
+    if (currentMillis - previousMillis >= interval) {
+        previousMillis = currentMillis;
 
-    // Read FSR value
-    fsrValue = analogRead(FSR_PIN);
-    Serial.print("FSR Value: ");
-    Serial.println(fsrValue);
+        int16_t ax, ay, az, gx, gy, gz;
+        mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
 
-    // Convert raw data to angles
-    float accelAngleX = atan2(ay, sqrt(ax * ax + az * az)) * 180.0 / M_PI;
-    float accelAngleY = atan2(-ax, sqrt(ay * ay + az * az)) * 180.0 / M_PI;
-    float gyroRateX = gx / 131.0, gyroRateY = gy / 131.0;
+        // Read FSR value
+        fsrValue = analogRead(FSR_PIN);
+        Serial.print("FSR Value: ");
+        Serial.println(fsrValue);
 
-    // Apply Kalman filter
-    kalmanFilter(angleX, biasX, accelAngleX, gyroRateX);
-    kalmanFilter(angleY, biasY, accelAngleY, gyroRateY);
+        // Convert raw data to angles
+        float accelAngleX = atan2(ay, sqrt(ax * ax + az * az)) * 180.0 / M_PI;
+        float accelAngleY = atan2(-ax, sqrt(ay * ay + az * az)) * 180.0 / M_PI;
+        float gyroRateX = gx / 131.0, gyroRateY = gy / 131.0;
 
-    // Send angles to MQTT
-    sendAnglesToMQTT(angleX, angleY);
-    delay(10);
+        // Apply Kalman filter
+        kalmanFilter(angleX, biasX, accelAngleX, gyroRateX);
+        kalmanFilter(angleY, biasY, accelAngleY, gyroRateY);
+
+        // Send angles to MQTT
+        sendAnglesToMQTT(angleX, angleY);
+    }
 }
 
 void connectToWiFi() {
