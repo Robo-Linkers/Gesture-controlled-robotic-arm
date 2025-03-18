@@ -104,10 +104,10 @@ void parseAndProcessData(String data) {
 }
 
 void updateServos() {
-    pwm.setPWM(BASE_SERVO, 0, angleToPulse(baseAngle));
-    pwm.setPWM(SHOULDER_SERVO, 0, angleToPulse(shoulderAngle));
-    pwm.setPWM(ELBOW_SERVO, 0, angleToPulse(elbowAngle));
-    pwm.setPWM(WRIST_SERVO, 0, angleToPulse(wristAngle));
+    pwm.setPWM(BASE_SERVO, 0, angleToPulse(baseAngle)); // first up down
+    pwm.setPWM(SHOULDER_SERVO, 0, angleToPulse(shoulderAngle)); // 2nd up down
+    pwm.setPWM(ELBOW_SERVO, 0, angleToPulse(elbowAngle)); // for gripper
+    pwm.setPWM(WRIST_SERVO, 0, angleToPulse(wristAngle)); // not used for now
 }
 
 // Convert angle (0-180) to PWM pulse (servo range: 500-2500µs)
