@@ -20,6 +20,13 @@ int fsrValue;
 // Servo angle variables
 int baseAngle = 90, shoulderAngle = 90, elbowAngle = 90, wristAngle = 90;
 
+const char* ssid = "Your_SSID";
+const char* password = "Your_PASSWORD";
+const char* mqttServer = "broker.emqx.io";
+const int mqttPort = 1883;
+const char* mqttUser = "Your_MQTT_Username";
+const char* mqttPassword = "Your_MQTT_Password";
+
 // WiFi and MQTT Client
 WiFiClient espClient;
 PubSubClient mqttClient(espClient);
@@ -42,8 +49,8 @@ void setup() {
     pinMode(FSR_PIN, INPUT); // Initialize FSR sensor
 
     // Connect to WiFi and MQTT
-    WiFi.begin("WIFI-SSD", "WIFI-PSSW");
-    mqttClient.setServer("broker.emqx.io", 1883);
+    WiFi.begin(ssid, password);
+    mqttClient.setServer(mqttServer, mqttPort);
     mqttClient.setCallback(mqttCallback);
     
     while (WiFi.status() != WL_CONNECTED) {
@@ -64,7 +71,7 @@ void loop() {
 void connectToMQTT() {
     while (!mqttClient.connected()) {
         Serial.print("Connecting to MQTT...");
-        if (mqttClient.connect("ESP32_SUB", "Your_MQTT_Username", "Your_MQTT_Password")) {
+        if (mqttClient.connect("ESP32_SUB", mqttUser, mqttPassword)) {
             Serial.println("Connected to MQTT Broker.");
             mqttClient.subscribe("sensor/angles");
         } else {
