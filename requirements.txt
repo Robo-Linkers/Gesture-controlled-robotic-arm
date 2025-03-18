@@ -1,0 +1,24 @@
+# Required Libraries for Gesture-Controlled Robotic Arm Project
+
+# WiFi library for ESP32
+WiFi.h
+
+# MQTT Client library
+PubSubClient.h
+
+# I2C library
+Wire.h
+
+# MPU6050 library for motion sensors
+MPU6050.h
+
+# PWM Servo Driver library
+Adafruit_PWMServoDriver.h
+
+# AccelStepper library for controlling stepper motors
+AccelStepper.h
+
+# Installation Instructions:
+1. Install the Arduino IDE from the official Arduino website.
+2. Add the ESP32 board package via the Board Manager in the Arduino IDE.
+3. Install necessary libraries using the Library Manager.

@@ -11,11 +11,15 @@
 - [✨ Features](#-features)
 - [⚙️ Installation Instructions](#️-installation-instructions)
 - [🚀 Usage Instructions](#-usage-instructions)
+  - [Components](#components)
+  - [Designs](#designs)
+  - [Testing](#testing)
 - [📂 Folder Structure](#-folder-structure)
 - [🔧 Use Cases](#-use-cases)
 - [🤝 Contributing](#-contributing)
 - [📜 License](#-license)
 - [🙏 Acknowledgments](#-acknowledgments)
+  - [🤖 Meet the Team! 🤝](#-meet-the-team-)
 - [📧 Contact Information](#-contact-information)
 
 </details>
@@ -41,58 +45,78 @@ Control is achieved via a **glove-based gesture system**, equipped with **flex s
 ---
 
 ## ⚙️ Installation Instructions  
-<!-- 🛠️ *Installation instructions will be provided soon.*   -->
-🛠️ For installation instructions and to download the Arduino IDE, visit the [Arduino IDE Download Page](https://www.arduino.cc/en/software).
 
+- 🛠️ For installation instructions and to download the Arduino IDE, visit the [Arduino IDE Download Page](https://www.arduino.cc/en/software).
+- Add the ESP32 Library to the ide [Instructions](https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html)
+- To set up the project, follow these steps: 
+- Clone the repository:
+- ```bash
+  git clone https://github.com/Robo-Linkers/Gesture-controlled-robotic-arm.git```
+- Install any necessary dependencies [REQUIREMENTS](requirements.txt)
+- Navigate to the project directory:
+- ```cd Gesture-controlled-robotic-arm```
 
 ---
 
 ## 🚀 Usage Instructions  
-📖 *Usage instructions will be provided soon.*  
+- After setting up the hardware and software, wear the glove equipped with sensors, power on the robotic arm, and start performing gestures to control its movements.
+  ### Components
+  - Robotic Arm: 4-link structure with servos.
+  - Glove Interface: Equipped with flex sensors and an accelerometer
+  - Microcontroller: ESP32 or compatible board for processing input signals
+  - Power Supply: AC power source for operation.
+  ### Designs
+  - Refer to the designs folder for schematic diagrams and design documents related to the glove and robotic arm.
+  ### Testing
+  - The tests folder contains Arduino sketches for testing individual components, including:
+    - Flex sensors
+    - Dual MPU6050
+    - Power electronics (motors, servos)
 
 ---
 
 ## 📂 Folder Structure  
-```
-.
+```bash
+Gesture-controlled-robotic-arm/
 ├── .gitignore
 ├── LICENSE
 ├── README.md
-├── assets
-│   └── icons
+├── assets/
+│   └── icons/
 │       ├── 3-dof-arm.png
 │       ├── binary-code.png
 │       ├── docs.png
 │       ├── pcb-board.png
 │       └── schematic.png
-├── designs
+├── designs/
 │   ├── DESIGN.MD
 │   ├── Schematic_Glove-Robotic-Arm_2025-01-13.pdf
 │   └── Schematic_Power-Drive-Controlled-Robotic-Arm_2025-01-13.pdf
-├── logs
+├── logs/
 │   ├── glove_control.log
 │   └── power_drive.log
-├── src
-│   ├── motionctrl_cmdprocess.cpp
-│   └── mpu_conversion_code.cpp
-├── tests
-│   ├── Embedded Systems
-│   │   ├── COMPLETE
-│   │   │   └── COMPLETE.ino
-│   │   ├── DUAL-MPU6050
-│   │   │   └── DUAL-MPU6050.ino
-│   │   └── FLEX-SENSORS
-│   │       └── FLEX-SENSORS.ino
-│   ├── Power Electronics
-│   │   ├── complete-dynamic
-│   │   │   └── complete-dynamic.ino
-│   │   ├── complete
-│   │   │   └── complete.ino
-│   │   ├── nema_17_test
-│   │   │   └── nema_17_test.ino
-│   │   └── servo_test
-│   │       └── servo_test.ino
-│   └── TESTS.MD
+├── src/
+│   ├── Glove.ino
+│   └── Power_Drive.ino
+└── tests/
+    ├── Embedded Systems/
+    │   ├── COMPLETE/
+    │   │   └── COMPLETE.ino
+    │   ├── DUAL-MPU6050/
+    │   │   └── DUAL-MPU6050.ino
+    │   └── FLEX-SENSORS/
+    │       └── FLEX-SENSORS.ino
+    └── Power Electronics/
+        ├── complete-dynamic/
+        │   └── complete-dynamic.ino
+        ├── complete/
+        │   └── complete.ino
+        ├── nema_17_test/
+        │   └── nema_17_test.ino
+        └── servo_test/
+            └── servo_test.ino
+    └── TESTS.MD
+
 
 ```
 ---
@@ -107,7 +131,7 @@ Control is achieved via a **glove-based gesture system**, equipped with **flex s
 ---
 
 ## 🤝 Contributing  
-🛠️ *Contributing guidelines will be provided soon.*  
+- Contributions are welcome! Please feel free to submit a pull request or open an issue if you have suggestions or improvements.
 
 ---
 
@@ -118,9 +142,19 @@ This project is licensed under the **MIT License**. Refer to the [LICENSE](LICEN
 ---
 
 ## 🙏 Acknowledgments  
-🚀 *Acknowledgments will be added here.*  
+
+### 🤖 Meet the Team! 🤝
+- [Namitha Madhu](https://www.linkedin.com/in/namitha-madhu-4934a8276/) - Embedded Lead 🚀 (The Code Whisperer)
+    - [Madhubala M](https://www.linkedin.com/in/madhubala-m-0b66752bb/) - Embedded Co-Lead 💡 (The Bug Slayer)
+    - [Bhagyashree M](https://www.linkedin.com/in/bhagyashree-m-a21853343/) - Hardware Integration Engineer ⚙️ (Making the Pieces Play Nice)
+    - [Keerthivasan](https://www.linkedin.com/in/keerthivasansv/) - The Binary Wizard 🧙‍♂️ (Caster of 1s and 0s)
+
+- [Anmol Krishh](https://www.linkedin.com/in/anmolkrish/) - Power Electronics Lead ✨⚡️ (No Magic Smoke Yet!)
+    - [Shivani K.C](https://www.linkedin.com/in/shivani-k-c-543513276/) - Power Electronics Co-Lead ⚡️ (Power Conversion Prodigy)
+
+- [Mithill Prabhu](https://www.linkedin.com/in/mithill-prabhu/) - Design Maestro ⚙️ (The 3D Modeling Magician)
 
 ---
 
 ## 📧 Contact Information  
-📬 *Contact information will be added here.*  
+- For any inquiries or feedback, please contact us at [GitHub](https://github.com/Robo-Linkers/Gesture-controlled-robotic-arm).
