@@ -144,15 +144,15 @@ This project is licensed under the **MIT License**. Refer to the [LICENSE](LICEN
 ## 🙏 Acknowledgments  
 
 ### 🤖 Meet the Team! 🤝
-- [Namitha Madhu](https://www.linkedin.com/in/namitha-madhu-4934a8276/) - Embedded Lead 🚀 (The Code Whisperer)
-    - [Madhubala M](https://www.linkedin.com/in/madhubala-m-0b66752bb/) - Embedded Co-Lead 💡 (The Bug Slayer)
-    - [Bhagyashree M](https://www.linkedin.com/in/bhagyashree-m-a21853343/) - Hardware Integration Engineer ⚙️ (Making the Pieces Play Nice)
-    - [Keerthivasan](https://www.linkedin.com/in/keerthivasansv/) - The Binary Wizard 🧙‍♂️ (Caster of 1s and 0s)
+- [Namitha Madhu](https://www.linkedin.com/in/namitha-madhu-4934a8276/) - Embedded Lead 🚀
+    - [Madhubala M](https://www.linkedin.com/in/madhubala-m-0b66752bb/) - Embedded Co-Lead 💡
+    - [Bhagyashree M](https://www.linkedin.com/in/bhagyashree-m-a21853343/) - Hardware Integration Engineer 
+    - [Keerthivasan](https://www.linkedin.com/in/keerthivasansv/) - The Code Wizard 🧙‍♂️ 
 
-- [Anmol Krishh](https://www.linkedin.com/in/anmolkrish/) - Power Electronics Lead ✨⚡️ (No Magic Smoke Yet!)
-    - [Shivani K.C](https://www.linkedin.com/in/shivani-k-c-543513276/) - Power Electronics Co-Lead ⚡️ (Power Conversion Prodigy)
+- [Anmol Krishh](https://www.linkedin.com/in/anmolkrish/) - Power Electronics Lead ✨⚡️
+    - [Shivani K.C](https://www.linkedin.com/in/shivani-k-c-543513276/) - Power Electronics Co-Lead ⚡️
 
-- [Mithill Prabhu](https://www.linkedin.com/in/mithill-prabhu/) - Design Maestro ⚙️ (The 3D Modeling Magician)
+- [Mithill Prabhu](https://www.linkedin.com/in/mithill-prabhu/) - Design Lead ⚙️
 
 ---
 
