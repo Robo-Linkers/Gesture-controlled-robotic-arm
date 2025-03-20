@@ -51,7 +51,8 @@ Control is achieved via a **glove-based gesture system**, equipped with **flex s
 - To set up the project, follow these steps: 
 - Clone the repository:
 - ```bash
-  git clone https://github.com/Robo-Linkers/Gesture-controlled-robotic-arm.git```
+  git clone https://github.com/Robo-Linkers/Gesture-controlled-robotic-arm.git
+  ```
 - Install any necessary dependencies [REQUIREMENTS](requirements.txt)
 - Navigate to the project directory:
 - ```cd Gesture-controlled-robotic-arm```
