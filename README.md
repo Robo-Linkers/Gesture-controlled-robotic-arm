@@ -10,11 +10,6 @@
 - [📖 Project Description](#-project-description)
 - [✨ Features](#-features)
 - [⚙️ Installation Instructions](#️-installation-instructions)
-- [🚀 Usage Instructions](#-usage-instructions)
-  - [Components](#components)
-  - [Designs](#designs)
-  - [Testing](#testing)
-- [📂 Folder Structure](#-folder-structure)
 - [🔧 Use Cases](#-use-cases)
 - [🤝 Contributing](#-contributing)
 - [📜 License](#-license)
@@ -132,7 +127,7 @@ Gesture-controlled-robotic-arm/
 ---
 
 ## 🤝 Contributing  
-- Contributions are welcome! Please feel free to submit a pull request or open an issue if you have suggestions or improvements.
+- Contributions are welcome! Please feel free to submit a pull request or open an issue if you have suggestions or improvements, for more details refer [CONTRIBUTING](CONTRIBUTING.md).
 
 ---
 
