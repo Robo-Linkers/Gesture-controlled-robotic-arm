@@ -19,7 +19,7 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x40);
 AccelStepper stepper(AccelStepper::DRIVER, STEP_PIN, DIR_PIN);
 
 // Servo Angles
-int baseAngle = 90, shoulderAngle = 90, elbowAngle = 90, wristAngle = 90;
+int shoulderAngle = 90, elbowAngle = 90, wristAngle = 90;
 bool gripperClosed = false;
 
 // Wi-Fi and MQTT Credentials
@@ -35,15 +35,17 @@ WiFiClient espClient;
 PubSubClient mqttClient(espClient);
 
 // Function Prototypes
+void setup();
+void loop();
 void updateServos();
 void mqttCallback(char* topic, byte* message, unsigned int length);
-int angleToPulse(int angle);
 void controlStepper(float angle);
+int angleToPulse(int angle);
 
 void setup() {
     Serial.begin(115200);
     Wire.begin();
-    
+
     pwm.begin();
     pwm.setPWMFreq(50);
 
@@ -83,7 +85,7 @@ void mqttCallback(char* topic, byte* message, unsigned int length) {
     for (unsigned int i = 0; i < length; i++) {
         data += (char)message[i];
     }
-    
+
     float angleServoX, angleServoY, angleStepperX;
     int grip;
     sscanf(data.c_str(), "SX:%f,SY:%f,ST:%f,GR:%d", &angleServoX, &angleServoY, &angleStepperX, &grip);
