@@ -48,7 +48,7 @@ void setup()
     pwm.begin();
     pwm.setPWMFreq(50);
 
-    stepper.setMaxSpeed(200);
+    stepper.setMaxSpeed(2000);
     stepper.setAcceleration(100);
 
     WiFi.begin(ssid, password);
