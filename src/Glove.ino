@@ -62,31 +62,31 @@ void setup()
     connectToMQTT();
 }
 
-void loop()
-{
+void loop() {
     ensureWiFiConnection();
     ensureMQTTConnection();
 
     unsigned long currentMillis = millis();
-    if (currentMillis - previousMillis >= interval)
-    {
+    if (currentMillis - previousMillis >= interval) {
         previousMillis = currentMillis;
 
         // Read MPU6050 data for Servos
         int16_t ax, ay, az, gx, gy, gz;
         mpuServo.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
         float accelAngleX = atan2(ay, sqrt(ax * ax + az * az)) * 180.0 / M_PI;
-        float accelAngleY = atan2(-ax, sqrt(ay * ay + az * az)) * 180.0 / M_PI;
-        float gyroRateX = gx / 131.0, gyroRateY = gy / 131.0;
+        float accelStepperY = atan2(-ax, sqrt(ay * ay + az * az)) * 180.0 / M_PI;
+        float gyroRateX = gx / 131.0, gyroStepperY = gy / 131.0;
         kalmanFilter(angleServoX, biasServoX, accelAngleX, gyroRateX);
-        kalmanFilter(angleServoY, biasServoY, accelAngleY, gyroRateY);
+        kalmanFilter(angleStepperY, biasStepperY, accelStepperY, gyroStepperY);
 
+        
         // Read MPU6050 data for Stepper
         int16_t ax2, ay2, az2, gx2, gy2, gz2;
         mpuStepper.getMotion6(&ax2, &ay2, &az2, &gx2, &gy2, &gz2);
-        float accelStepperX = atan2(ay2, sqrt(ax2 * ax2 + az2 * az2)) * 180.0 / M_PI;
-        float gyroStepperX = gx2 / 131.0;
-        kalmanFilter(angleStepperX, biasStepperX, accelStepperX, gyroStepperX);
+        float accelAngleX2 = atan2(ay2, sqrt(ax2 * ax2 + az2 * az2)) * 180.0 / M_PI;
+        float gyroRateX2 = gx2 / 131.0;
+        kalmanFilter(angleServoX2, biasServoX2, accelAngleX2, gyroRateX2);
+
 
         // Read FSR sensor values
         fsr1Value = analogRead(FSR1_PIN);
@@ -94,7 +94,7 @@ void loop()
         bool gripActive = (fsr1Value > 500 || fsr2Value > 500);
 
         // Send data via MQTT
-        sendAnglesToMQTT(angleServoX, angleServoY, angleStepperX, gripActive);
+        sendAnglesToMQTT(angleServoX, angleServoX2, angleStepperY, gripActive);
     }
 }
 
