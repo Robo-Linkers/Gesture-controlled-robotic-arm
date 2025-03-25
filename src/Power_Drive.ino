@@ -85,23 +85,21 @@ void loop()
     stepper.run();
 }
 
-void mqttCallback(char *topic, byte *message, unsigned int length)
-{
+void mqttCallback(char* topic, byte* message, unsigned int length) {
     String data;
-    for (unsigned int i = 0; i < length; i++)
-    {
+    for (unsigned int i = 0; i < length; i++) {
         data += (char)message[i];
     }
-
-    float angleServoX, angleServoY, angleStepperX;
+    
+    float angleServoX, angleServoX2, angleStepperY;
     int grip;
-    sscanf(data.c_str(), "SX:%f,SY:%f,ST:%f,GR:%d", &angleServoX, &angleServoY, &angleStepperX, &grip);
+    sscanf(data.c_str(), "SX:%f,SX2:%f,ST:%f,GR:%d", &angleServoX, &angleServoX2, &angleStepperY, &grip);
 
     shoulderAngle = map(angleServoX, -90, 90, 0, 180);
-    elbowAngle = map(angleServoY, -90, 90, 0, 180);
+    elbowAngle = map(angleServoX2, -90, 90, 0, 180);
     gripperClosed = grip;
 
-    controlStepper(angleStepperX);
+    controlStepper(angleStepperY);
     updateServos();
 }
 
