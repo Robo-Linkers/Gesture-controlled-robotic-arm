@@ -139,13 +139,14 @@ This project is licensed under the **MIT License**. Refer to the [LICENSE](LICEN
 ## 🙏 Acknowledgments  
 
 ### 🤖 Meet the Team! 🤝
+
 - [Namitha Madhu](https://www.linkedin.com/in/namitha-madhu-4934a8276/) - Embedded Lead 🚀
     - [Madhubala M](https://www.linkedin.com/in/madhubala-m-0b66752bb/) - Embedded Co-Lead 💡
     - [Bhagyashree M](https://www.linkedin.com/in/bhagyashree-m-a21853343/) - Hardware Integration Engineer 
     - [Keerthivasan](https://www.linkedin.com/in/keerthivasansv/) - The Code Wizard 🧙‍♂️ 
-    - 
+
 - [Gomathi Manisha](https://www.linkedin.com/in/gomathi-manisha-a-3894b8285) - Project Co-Lead 🚀
-- 
+
 - [Anmol Krishh](https://www.linkedin.com/in/anmolkrish/) - Project Lead and Power Electronics Lead ✨⚡️
     - [Shivani K.C](https://www.linkedin.com/in/shivani-k-c-543513276/) - Power Electronics Co-Lead ⚡️
 
