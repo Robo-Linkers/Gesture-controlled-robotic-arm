@@ -41,6 +41,17 @@ void sendAnglesToMQTT(float angleServoX, float angleServoY, float angleStepperX,
 unsigned long previousMillis = 0;
 const long interval = 200; // Adjusted update interval for smooth transition
 
+/**
+ * @brief Initializes the serial communication, I2C bus, and MPU6050 sensors.
+ *        Connects to WiFi and MQTT broker.
+ * @details
+ * - Initializes serial communication with a baud rate of 115200.
+ * - Initializes the I2C bus.
+ * - Initializes two MPU6050 sensors and checks for a successful connection.
+ *   If either sensor fails to connect, the function enters an infinite loop.
+ * - Connects to WiFi with the provided ssid and password.
+ * - Connects to the MQTT broker at the provided server and port.
+ */
 void setup()
 {
     Serial.begin(115200);
@@ -62,6 +73,20 @@ void setup()
     connectToMQTT();
 }
 
+/**
+ * @brief Main loop of the program.
+ *        Ensures WiFi and MQTT connections are established and maintained.
+ *        Reads data from the MPU6050 sensors and the FSR sensors.
+ *        Applies Kalman filter to the data for smoother transitions.
+ *        Sends the filtered data to the MQTT broker.
+ * @details
+ * - Ensures WiFi connection with the provided ssid and password.
+ * - Ensures MQTT connection with the provided server and port.
+ * - Reads data from the MPU6050 sensors for the servos and the stepper motor.
+ * - Applies the Kalman filter to the data to reduce noise and jitter.
+ * - Reads data from the FSR sensors to detect grip activity.
+ * - Sends the filtered data to the MQTT broker.
+ */
 void loop() {
     ensureWiFiConnection();
     ensureMQTTConnection();
@@ -98,6 +123,18 @@ void loop() {
     }
 }
 
+/**
+ * @brief Publishes the angles of the robotic arm's servos and
+ *        the stepper motor, as well as the grip status, to the
+ *        MQTT broker.
+ * @param[in] angleServoX Angle of the servo motor controlling
+ *                        the base rotation in degrees.
+ * @param[in] angleServoY Angle of the servo motor controlling
+ *                        the shoulder rotation in degrees.
+ * @param[in] angleStepperX Angle of the stepper motor controlling
+ *                          the elbow rotation in degrees.
+ * @param[in] gripActive true if the grip is active, false otherwise.
+ */
 void sendAnglesToMQTT(float angleServoX, float angleServoY, float angleStepperX, bool gripActive)
 {
     char msg[50];
@@ -105,6 +142,21 @@ void sendAnglesToMQTT(float angleServoX, float angleServoY, float angleStepperX,
     mqttClient.publish("robot/angles", msg);
 }
 
+/**
+ * @brief Applies the Kalman filter to the given angle and rate.
+ * @details
+ * - Computes the rate of change of the angle.
+ * - Updates the angle and bias using the rate of change.
+ * - Updates the covariance matrix using the rate of change and
+ *   the measurement noise.
+ * - Computes the Kalman gain.
+ * - Updates the angle and bias using the Kalman gain.
+ * - Updates the covariance matrix using the Kalman gain.
+ * @param[in,out] angle The angle to filter.
+ * @param[in,out] bias The bias of the angle.
+ * @param[in] newAngle The new angle measurement.
+ * @param[in] newRate The new rate measurement.
+ */
 void kalmanFilter(float &angle, float &bias, float newAngle, float newRate)
 {
     float rate = newRate - bias;
@@ -123,6 +175,13 @@ void kalmanFilter(float &angle, float &bias, float newAngle, float newRate)
     P[1][0] -= K[1] * P[0][0];
     P[1][1] -= K[1] * P[0][1];
 }
+
+/**
+ * @brief Ensures that the MQTT client is connected.
+ * @details
+ * - Checks if the MQTT client is currently connected to the broker.
+ * - If not connected, attempts to establish a connection by calling connectToMQTT().
+ */
 void ensureMQTTConnection()
 {
     if (!mqttClient.connected())
@@ -130,6 +189,14 @@ void ensureMQTTConnection()
         connectToMQTT();
     }
 }
+
+/**
+ * @brief Establishes a connection to the MQTT broker.
+ * @details
+ * - Connects to the MQTT broker using the client ID, username, and password.
+ * - If the connection fails, prints the error state and waits for 2 seconds before retrying.
+ * - Repeats until the connection is established.
+ */
 void connectToMQTT()
 {
     while (!mqttClient.connected())
@@ -147,6 +214,13 @@ void connectToMQTT()
         }
     }
 }
+
+/**
+ * @brief Ensures that the Wi-Fi connection is established.
+ * @details
+ * - Checks if the Wi-Fi connection is currently established.
+ * - If not connected, attempts to establish a connection by calling connectToWiFi().
+ */
 void ensureWiFiConnection()
 {
     if (WiFi.status() != WL_CONNECTED)
@@ -154,6 +228,15 @@ void ensureWiFiConnection()
         connectToWiFi();
     }
 }
+
+/**
+ * @brief Establishes a connection to the Wi-Fi network.
+ * @details
+ * - Initiates connection to the Wi-Fi using the provided SSID and password.
+ * - Continuously checks the connection status until connected, displaying
+ *   progress via serial output.
+ * - Prints a confirmation message upon successful connection.
+ */
 void connectToWiFi()
 {
     Serial.print("Connecting to Wi-Fi: ");

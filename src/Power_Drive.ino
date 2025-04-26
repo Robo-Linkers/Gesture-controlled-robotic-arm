@@ -40,6 +40,19 @@ void mqttCallback(char *topic, byte *message, unsigned int length);
 int angleToPulse(int angle);
 void controlStepper(float angle);
 
+/**
+ * @brief Initializes the serial communication, I2C bus, PWM servo driver, and stepper motor.
+ *        Connects to WiFi and MQTT broker.
+ * @details
+ * - Initializes serial communication with a baud rate of 115200.
+ * - Initializes the I2C bus.
+ * - Initializes the PWM servo driver and sets the PWM frequency to 50 Hz.
+ * - Initializes the stepper motor and sets its maximum speed and acceleration.
+ * - Connects to WiFi with the provided ssid and password.
+ * - Connects to the MQTT broker at the provided server and port.
+ * - Subscribes to the "robot/angles" topic.
+ * - Updates the servo angles to the initial values.
+ */
 void setup()
 {
     Serial.begin(115200);
@@ -79,12 +92,25 @@ void setup()
     updateServos();
 }
 
+/**
+ * @brief Main loop of the program.
+ *        Checks for any MQTT messages and updates the stepper motor
+ *        if a new angle is received.
+ */
 void loop()
 {
     mqttClient.loop();
     stepper.run();
 }
 
+/**
+ * @brief MQTT callback function.
+ *        Updates the servo angles and the stepper motor when an MQTT message is received.
+ *        The message should be in the format "SX:<angleServoX>,SX2:<angleServoX2>,ST:<angleStepperY>,GR:<grip>".
+ * @param[in] topic MQTT topic of the message.
+ * @param[in] message MQTT message payload.
+ * @param[in] length Length of the MQTT message payload.
+ */
 void mqttCallback(char* topic, byte* message, unsigned int length) {
     String data;
     for (unsigned int i = 0; i < length; i++) {
@@ -103,11 +129,26 @@ void mqttCallback(char* topic, byte* message, unsigned int length) {
     updateServos();
 }
 
+/**
+ * @brief Move the stepper motor to a specific angle.
+ *        The angle should be between -90 and 90 degrees.
+ *        The stepper motor will move to the specified angle and stop.
+ * @param[in] angle Angle to move the stepper motor to, in degrees.
+ */
 void controlStepper(float angle)
 {
     stepper.moveTo(map(angle, -90, 90, -1000, 1000));
 }
 
+/**
+ * @brief Updates the servo angles of the robotic arm.
+ *        The angles should be in the range of 0-180 degrees.
+ *        The servos will move to the specified angle and stop.
+ * @details
+ * - Updates the servo angles using the Adafruit_PWMServoDriver library.
+ * - The angles are mapped from 0-180 degrees to the specified range of the servos.
+ * - The servos will move to the specified angle and stop.
+ */
 void updateServos()
 {
     pwm.setPWM(SHOULDER_SERVO, 0, angleToPulse(shoulderAngle));
@@ -115,6 +156,14 @@ void updateServos()
     pwm.setPWM(WRIST_SERVO, 0, angleToPulse(gripperClosed ? 0 : 180));
 }
 
+/**
+ * @brief Converts an angle in degrees to a pulse length suitable for controlling a servo motor.
+ *        The angle should be in the range of 0-180 degrees.
+ *        The pulse length is mapped from the range of 0-180 degrees to the range of 150-600,
+ *        which is a good range for most servo motors.
+ * @param[in] angle Angle to convert, in degrees.
+ * @return Pulse length suitable for controlling a servo motor, in microseconds.
+ */
 int angleToPulse(int angle)
 {
     int pulse = map(angle, 0, 180, 150, 600); // 150-600 is a good range for most servos
