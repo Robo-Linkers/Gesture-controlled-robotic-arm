@@ -24,8 +24,8 @@ MPU6050 mpuServo, mpuStepper;
 int fsr1Value, fsr2Value;
 
 // Kalman Filter Variables
-float angleServoX, angleServoY, angleStepperX;
-float biasServoX = 0, biasServoY = 0, biasStepperX = 0;
+float angleServoX, angleServoY, angleStepperX, angleStepperX2;
+float biasServoX = 0, biasServoY = 0, biasStepperX = 0, biasServoX2 = 0;
 float P[2][2] = {{1, 0}, {0, 1}};
 const float kalmanQ = 0.001, kalmanR = 0.03, dt = 0.05; // Smooth update delay
 
@@ -135,10 +135,10 @@ void loop() {
  *                          the elbow rotation in degrees.
  * @param[in] gripActive true if the grip is active, false otherwise.
  */
-void sendAnglesToMQTT(float angleServoX, float angleServoY, float angleStepperX, bool gripActive)
+void sendAnglesToMQTT(float angleServoX, float angleServoX2, float angleStepperY, bool gripActive)
 {
     char msg[50];
-    snprintf(msg, sizeof(msg), "SX:%.2f,SY:%.2f,ST:%.2f,GR:%d", angleServoX, angleServoY, angleStepperX, gripActive);
+    snprintf(msg, sizeof(msg), "SX:%.2f,SX2:%.2f,SY:%.2f,GR:%d", angleServoX, angleServoX2, angleStepperY, gripActive);
     mqttClient.publish("robot/angles", msg);
 }
 
