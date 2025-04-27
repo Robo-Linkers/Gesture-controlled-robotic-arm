@@ -31,10 +31,9 @@ Control is achieved via a **glove-based gesture system**, equipped with **flex s
 
 ## ✨ Features  
 
-✅ **4-link robotic arm structure** for precise movement  
+✅ **Precise movement**  
 ✅ **Gesture-based control** using flex sensors and an accelerometer  
 ✅ **Pick-and-place functionality** for automation tasks  
-✅ **Direct operation from a single-phase AC power source** (no batteries required)  
 ✅ **Intuitive user interface** for seamless control  
 
 ---
@@ -51,7 +50,7 @@ Control is achieved via a **glove-based gesture system**, equipped with **flex s
 - Install any necessary dependencies [REQUIREMENTS](requirements.txt)
 - Navigate to the project directory:
 - ```cd Gesture-controlled-robotic-arm```
-
+- 
 ---
 
 ## 🚀 Usage Instructions  

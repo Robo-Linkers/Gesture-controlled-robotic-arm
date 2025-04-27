@@ -24,8 +24,8 @@ MPU6050 mpuServo, mpuStepper;
 int fsr1Value, fsr2Value;
 
 // Kalman Filter Variables
-float angleServoX, angleServoY, angleStepperX, angleStepperX2;
-float biasServoX = 0, biasServoY = 0, biasStepperX = 0, biasServoX2 = 0;
+float angleServoX, angleServoX2, angleStepperY;
+float biasServoX = 0, biasServoX2 = 0, biasStepperY = 0;
 float P[2][2] = {{1, 0}, {0, 1}};
 const float kalmanQ = 0.001, kalmanR = 0.03, dt = 0.05; // Smooth update delay
 
@@ -35,7 +35,7 @@ void ensureWiFiConnection();
 void connectToMQTT();
 void ensureMQTTConnection();
 void kalmanFilter(float &angle, float &bias, float newAngle, float newRate);
-void sendAnglesToMQTT(float angleServoX, float angleServoY, float angleStepperX, bool gripActive);
+void sendAnglesToMQTT(float angleServoX, float angleServoX2, float angleStepperY, bool gripActive);
 
 // Delay for smoother updates
 unsigned long previousMillis = 0;
@@ -95,17 +95,17 @@ void loop() {
     if (currentMillis - previousMillis >= interval) {
         previousMillis = currentMillis;
 
-        // Read MPU6050 data for Servos
+        // Read MPU6050 data for Servo and Stepper
         int16_t ax, ay, az, gx, gy, gz;
         mpuServo.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
         float accelAngleX = atan2(ay, sqrt(ax * ax + az * az)) * 180.0 / M_PI;
         float accelStepperY = atan2(-ax, sqrt(ay * ay + az * az)) * 180.0 / M_PI;
         float gyroRateX = gx / 131.0, gyroStepperY = gy / 131.0;
-        kalmanFilter(angleServoX, biasServoX, accelAngleX, gyroRateX);
-        kalmanFilter(angleStepperY, biasStepperY, accelStepperY, gyroStepperY);
+        kalmanFilter(angleServoX, biasServoX, accelAngleX, gyroRateX); // 1st servo "X" angle
+        kalmanFilter(angleStepperY, biasStepperY, accelStepperY, gyroStepperY); // Stepper "Y" angle
 
         
-        // Read MPU6050 data for Stepper
+        // Read MPU6050 data for 2nd Servo
         int16_t ax2, ay2, az2, gx2, gy2, gz2;
         mpuStepper.getMotion6(&ax2, &ay2, &az2, &gx2, &gy2, &gz2);
         float accelAngleX2 = atan2(ay2, sqrt(ax2 * ax2 + az2 * az2)) * 180.0 / M_PI;
