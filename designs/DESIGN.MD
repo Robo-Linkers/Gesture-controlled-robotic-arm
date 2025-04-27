@@ -144,10 +144,10 @@ You can implement the electronics in two ways:
     - Flex sensors and touch sensors connected to the ESP32 analog or digital inputs based on your design.
 
 ## 🔗 Useful Links
-[PCA9685 Datasheet and Pinout](https://www.espboards.dev/sensors/pca9685/#specs)
-[DRV8825 Datasheet and Pinout](https://www.makerguides.com/drv8825-stepper-motor-driver-arduino-tutorial/)
-[ESP32 Datasheet and Pinout](https://randomnerdtutorials.com/getting-started-with-esp32/)
-[MPU6050 Datasheet and Pinout](https://lastminuteengineers.com/mpu6050-accel-gyro-arduino-tutorial/)
-[KiCAD Basics](https://www.youtube.com/playlist?list=PLn6004q9oeqGl91KifK6xHGuqvXGb374G)
-[Soldering Tutorial — 1](https://www.instructables.com/A-Comprehensive-Guide-to-Soldering-Techniques-Tool/)
-[Soldering Tutorial — 2](https://www.sciencebuddies.org/science-fair-projects/references/how-to-solder)
+- [PCA9685 Datasheet and Pinout](https://www.espboards.dev/sensors/pca9685/#specs)
+- [DRV8825 Datasheet and Pinout](https://www.makerguides.com/drv8825-stepper-motor-driver-arduino-tutorial/)
+- [ESP32 Datasheet and Pinout](https://randomnerdtutorials.com/getting-started-with-esp32/)
+- [MPU6050 Datasheet and Pinout](https://lastminuteengineers.com/mpu6050-accel-gyro-arduino-tutorial/)
+- [KiCAD Basics](https://www.youtube.com/playlist?list=PLn6004q9oeqGl91KifK6xHGuqvXGb374G)
+- [Soldering Tutorial — 1](https://www.instructables.com/A-Comprehensive-Guide-to-Soldering-Techniques-Tool/)
+- [Soldering Tutorial — 2](https://www.sciencebuddies.org/science-fair-projects/references/how-to-solder)
