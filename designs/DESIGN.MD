@@ -1,7 +1,7 @@
 <h1 align="center">Design Folder</h1>
 
 <p align="center">
-  <img src="../assets/icons/schematic.png" alt="Schematic Overview" width="200"/>
+  <img src="../assets/icons/schematic.png" alt="Design" width="200"/>
 </p>
 
 ## Table of Contents
@@ -200,14 +200,6 @@ The structure is designed to be lightweight, modular, and easily reproducible us
 - For the base, use weight balancing if necessary (suggest placing a metal plate).
 
 ---
-
-<!-- ### 🔗 Useful Mechanical References
-
-- [Standard Servo Horn Mounting Guide](https://www.servocity.com/how-to-mount-servo-horns/)
-- [PLA Material Data Sheet (for 3D Printed Parts)](https://www.matterhackers.com/3d-printer-filament-pla)
-- [3D Printing Tolerances Tips](https://formlabs.com/blog/3d-printing-tolerances/)
-
---- -->
 
 ### ⚠️ Mechanical Handling Notes
 

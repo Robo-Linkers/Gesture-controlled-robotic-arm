@@ -1,4 +1,9 @@
-# 🧪 Tests Folder
+<h1 align="center">🧪 Tests Folder</h1>
+
+<p align="center">
+  <img src="../assets/icons/testing.png" alt="Tests" width="200"/>
+</p>
+
 
 This directory contains tests to ensure code reliability and functionality for Embedded Systems and Power Electronics projects.
 
@@ -7,6 +12,7 @@ This directory contains tests to ensure code reliability and functionality for E
 - Validate code correctness for various hardware and software components.
 - Detect bugs and errors in embedded system and power electronics designs.
 - Maintain code quality and ensure proper operation of electronic systems.
+---
 
 ## 📂 Folder Structure
 
@@ -24,6 +30,7 @@ The `tests` folder is organized into two main categories:
     -   `complete-dynamic`: Contains tests for a complete dynamic power electronics system.
     -   `nema_17_test`: Contains tests for NEMA 17 stepper motors.
     -   `servo_test`: Contains tests for servo motors.
+---
 
 ## ⚙️ Usage
 
@@ -35,5 +42,3 @@ Each subfolder contains an `.ino` file, which can be opened and run using the Ar
 4.  Monitor the output and verify the results.
 
 ---
-
-🚀
