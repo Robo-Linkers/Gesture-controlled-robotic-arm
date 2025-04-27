@@ -17,8 +17,3 @@ Adafruit_PWMServoDriver.h
 
 # AccelStepper library for controlling stepper motors
 AccelStepper.h
-
-# Installation Instructions:
-1. Install the Arduino IDE from the official Arduino website.
-2. Add the ESP32 board package via the Board Manager in the Arduino IDE.
-3. Install necessary libraries using the Library Manager.
