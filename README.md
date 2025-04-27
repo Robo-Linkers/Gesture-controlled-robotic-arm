@@ -25,13 +25,13 @@
 
 The **Gesture-Controlled Robotic Arm** is designed to automate repetitive tasks using hand gestures. The robotic arm consists of **four links**: a **base, two links, and an end effector**, enabling **pick-and-place functionality**.  
 
-Control is achieved via a **glove-based gesture system**, equipped with **flex sensors and an accelerometer**, translating hand movements into precise robotic commands. The arm is powered directly from a **single-phase AC source**, eliminating the need for batteries and enhancing efficiency.  
+Control is achieved via a **glove-based gesture system**, equipped with **flex sensors and an accelerometer**, translating hand movements into precise robotic commands.
 
 ---
 
 ## ✨ Features  
 
-✅ **Precise movement**  
+✅ **4-link robotic arm structure** for precise movement
 ✅ **Gesture-based control** using flex sensors and an accelerometer  
 ✅ **Pick-and-place functionality** for automation tasks  
 ✅ **Intuitive user interface** for seamless control  
@@ -50,7 +50,16 @@ Control is achieved via a **glove-based gesture system**, equipped with **flex s
 - Install any necessary dependencies [REQUIREMENTS](requirements.txt)
 - Navigate to the project directory:
 - ```cd Gesture-controlled-robotic-arm```
-- 
+- In the `src` folder, you will find two Arduino code files: `Glove.ino` and `Power_Drive.ino`.
+  - Upload `Glove.ino` to the ESP32 board that handles gesture recognition.
+  - Upload `Power_Drive.ino` to the ESP32 board that controls the robotic arm's movements.
+- Before uploading the codes to the boards, make sure to:
+  - Edit the relevant fields in both files:
+    - Set your WiFi SSID and Password in the code.  
+    - Adjust any other parameters as necessary for your setup (e.g., GPIO pins, motor controls).
+
+Once you've uploaded both codes to the respective boards, your setup should be ready for further testing.
+- For building the hardware and assembling the robotic arm, refer to the detailed setup and wiring instructions in the [DESIGN.MD](./designs/DESIGN.MD) file. This includes schematics, PCB designs, and wiring connections necessary to physically construct the system.
 ---
 
 ## 🚀 Usage Instructions  
@@ -61,12 +70,14 @@ Control is achieved via a **glove-based gesture system**, equipped with **flex s
   - Microcontroller: ESP32 or compatible board for processing input signals
   - Power Supply: AC power source for operation.
   ### Designs
-  - Refer to the designs folder for schematic diagrams and design documents related to the glove and robotic arm.
+  - For detailed information on the setup, schematics, and design documents related to the glove and robotic arm, refer to the Design Folder. It includes all the necessary diagrams and documentation to help you build the physical system and understand the circuitry.
   ### Testing
   - The tests folder contains Arduino sketches for testing individual components, including:
     - Flex sensors
     - Dual MPU6050
     - Power electronics (motors, servos)
+  - If you encounter any errors, test each component individually to identify the source of the issue. 
+  > It is **highly recommended** to test each component individually before full assembly to ensure everything is working correctly and to avoid complications during the final integration.
 
 ---
 
