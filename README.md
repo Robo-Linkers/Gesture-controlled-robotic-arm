@@ -10,13 +10,14 @@
 - [📖 Project Description](#-project-description)
 - [✨ Features](#-features)
 - [⚙️ Installation Instructions](#️-installation-instructions)
+- [🦾 Project Showcase](#-project-showcase)
 - [🔧 Use Cases](#-use-cases)
+- [🛣️ Future Plans](#️-future-plans)
 - [🤝 Contributing](#-contributing)
 - [📜 License](#-license)
 - [🙏 Acknowledgments](#-acknowledgments)
   - [🤖 Meet the Team! 🤝](#-meet-the-team-)
 - [📧 Contact Information](#-contact-information)
-
 </details>
 
 ---
@@ -36,6 +37,11 @@ Control is achieved via a **glove-based gesture system**, equipped with **flex s
 ✅ **Pick-and-place functionality** for automation tasks  
 ✅ **Intuitive user interface** for seamless control  
 
+> **Note:**  
+> The integration of a 4th link between the end effector and the robotic arm is part of our planned system expansion.  
+> In the current release, the design has been optimized for stability, ease of control, and project timelines.  
+> Full 4-link integration, offering enhanced dexterity and extended functionality, is scheduled for future updates.  
+> Further design considerations and future rollout details are outlined in the [DESIGN.MD](./designs/DESIGN.MD) file.
 ---
 
 ## ⚙️ Installation Instructions  
@@ -59,7 +65,7 @@ Control is achieved via a **glove-based gesture system**, equipped with **flex s
     - Adjust any other parameters as necessary for your setup (e.g., GPIO pins, motor controls).
 
 Once you've uploaded both codes to the respective boards, your setup should be ready for further testing.
-- For building the hardware and assembling the robotic arm, refer to the detailed setup and wiring instructions in the [DESIGN.MD](./designs/DESIGN.MD) file. This includes schematics, PCB designs, and wiring connections necessary to physically construct the system.
+- For building the hardware and assembling the robotic arm, refer to the detailed setup and wiring instructions in the [DESIGN.MD](./designs/DESIGN.MD) file. This includes schematics, PCB & hardware designs, and wiring connections necessary to physically construct the system.
 ---
 
 ## 🚀 Usage Instructions  
@@ -122,8 +128,11 @@ Gesture-controlled-robotic-arm/
         └── servo_test/
             └── servo_test.ino
     └── TESTS.MD
-  
 ```
+---
+## 🦾 Project Showcase
+<!-- Add vids, images etc -->
+
 ---
 
 ## 🔧 Use Cases  
@@ -132,6 +141,27 @@ Gesture-controlled-robotic-arm/
 🏥 **Healthcare** → Assisting in surgeries or rehabilitation exercises  
 🎓 **Education** → Demonstrating robotics concepts in academic settings  
 🧪 **Research** → Exploring human-robot interaction and automation  
+
+---
+
+## 🛣️ Future Plans
+- 🚀 **Integrate the 4th Link**
+  - Expand the robotic arm with a fourth link between the end effector and arm base to improve dexterity and range of motion.
+
+- 🚀 **Enhance Gesture Recognition**
+  - Implement advanced gesture processing algorithms for more fluid and natural control.
+
+- 🚀 **Wireless Communication Optimization**
+  - Improve reliability and response time of the ESP32-based communication system.
+
+- 🚀 **Battery Power Support**
+  - Add portable power options to make the system independent of a fixed AC supply.
+
+- 🚀 **Vision-Based Object Tracking (Optional)**
+  - Future iterations may incorporate a lightweight camera module for autonomous object detection and tracking.
+
+- 🚀 **Mechanical Redesign**
+  - Refine the mechanical structure for lighter weight and increased durability, including 3D printed or CNC-milled parts.
 
 ---
 
@@ -147,9 +177,9 @@ This project is licensed under the **MIT License**. Refer to the [LICENSE](LICEN
 ---
 
 ## 🙏 Acknowledgments  
+> Engineered by Robo-Linkers 🤖 2025
 
 ### 🤖 Meet the Team! 🤝
-
 - [Namitha Madhu](https://www.linkedin.com/in/namitha-madhu-4934a8276/) - Embedded Lead 🚀
     - [Madhubala M](https://www.linkedin.com/in/madhubala-m-0b66752bb/) - Embedded Co-Lead 💡
     - [Bhagyashree M](https://www.linkedin.com/in/bhagyashree-m-a21853343/) - Hardware Integration Engineer 

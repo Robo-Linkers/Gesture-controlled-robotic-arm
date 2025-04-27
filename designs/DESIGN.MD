@@ -14,15 +14,22 @@
   - [🖐️ 2. Embedded System Schematic](#️-2-embedded-system-schematic)
   - [Final PCB for Glove Control](#final-pcb-for-glove-control)
 - [🛠️ Wiring Instructions](#️-wiring-instructions)
+- [🦿 Mechanical Design Overview](#-mechanical-design-overview)
+  - [📂 Mechanical Design Files](#-mechanical-design-files)
+  - [🖼️ Final Mechanical Build](#️-final-mechanical-build)
+  - [🛠️ Assembly Instructions](#️-assembly-instructions)
+  - [⚠️ Mechanical Handling Notes](#️-mechanical-handling-notes)
+    - [Image of the Feature Excluded:](#image-of-the-feature-excluded)
 - [🔗 Useful Links](#-useful-links)
 
 ## 📖 Overview  
 
-This folder contains two important schematic files related to the design of the Robotic Arm project. Each schematic serves a specific purpose and is crucial for the development and integration of the power electronics and embedded systems.
+This folder contains three important schematic files related to the design of the Robotic Arm project. Each schematic serves a specific purpose and is crucial for the development and integration of the power electronics and embedded systems.
 > 📄 All schematics are provided in PDF format for easy viewing and printing.
 > All the voltages mentioned are in DC unless specified.
 > Designed and documented by **IoRT Club** - Embedded & Power Crew.
 
+---
 
 ## 🛠️ Implementation Note
 
@@ -35,7 +42,7 @@ You can implement the electronics in two ways:
   - [KiCad](https://www.kicad.org/) — Open-source, highly customizable PCB design software.
   - [EasyEDA](https://easyeda.com/) — Browser-based and beginner-friendly PCB design platform.
 
-  > **Note**: Both tools are free to use (with some limitations).  
+  > **Note**: Both tools are free to use (with some limitations).    
   After completing your design, export the files in **Gerber format** and submit them to a PCB fabrication vendor for manufacturing.
 
 - **Perfboard / Breadboard**:  
@@ -45,6 +52,7 @@ You can implement the electronics in two ways:
 
 > **Note**: Ensure proper wire management and soldering practices if you choose the perfboard method to maintain signal integrity and minimize errors.
 
+---
 
 ## 📂 Schematic Files
 
@@ -104,7 +112,7 @@ You can implement the electronics in two ways:
   - Flex Sensors
 - **Notes**:
   - Operates at 3.3V logic levels.
-  - Input supply is 9V regulated down. Ensure the input provided is above 5V
+  - Input supply is 9V regulated down. Ensure the input provided is between 6V to 12V
 
 ### Final PCB for Glove Control
 <div align ="center">
@@ -117,10 +125,12 @@ You can implement the electronics in two ways:
      onmouseout="this.style.transform='scale(1)';"/>
 </div>
 
+---
+
 ## 🛠️ Wiring Instructions
 - Ensure the all components are upto the rating as mentioned in the [BOM](../docs/Bill_of_Materials_Electrical.pdf)
 - Make sure the pinout of your component matches the one provided in the schematic
-- If a perfboard based design if being followed ensure that each voltage levels have different rails (think of it as a path for the current), the ground can occupy a single rail.
+- If a perfboard based design if being followed ensure that each voltage levels have different rails (think of it as a path for the current), the ground can occupy a single common rail.
 -  [🔌 1. Power Electronics Schematic ](#-1-power-electronics-schematic) — 
    -  ESP32-WROOM32:
          - GPIO Pins to control servos via PCA9685.
@@ -143,6 +153,79 @@ You can implement the electronics in two ways:
   - Flex Sensors and TTP223 Touch Sensors:
     - Flex sensors and touch sensors connected to the ESP32 analog or digital inputs based on your design.
 
+--- 
+
+## 🦿 Mechanical Design Overview
+
+This section covers the mechanical design aspects of the **Gesture-Controlled Robotic Arm**.  
+The structure is designed to be lightweight, modular, and easily reproducible using commonly available materials.
+
+---
+
+### 📂 Mechanical Design Files
+
+- **Formats**: `.step`, `.asm`
+
+---
+
+### 🖼️ Final Mechanical Build
+
+<div align="center">
+<img src="../assets/images/mechanical-assembly-ss.png" 
+     alt="Robotic Arm Assembly Side View" 
+     width="800"
+     style="border: 2px solid #ccc; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: transform 0.3s; margin-bottom: 30px;"
+     onmouseover="this.style.transform='scale(1.05)';"
+     onmouseout="this.style.transform='scale(1)';"/>
+</div>
+
+<div align="center">
+<img src="../assets/images/mechanical-assembly-ss-front.png" 
+     alt="Robotic Arm Assembly Front View" 
+     width="800"
+     style="border: 2px solid #ccc; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: transform 0.3s; margin-bottom: 30px;"
+     onmouseover="this.style.transform='scale(1.05)';"
+     onmouseout="this.style.transform='scale(1)';"/>
+</div>
+
+---
+
+### 🛠️ Assembly Instructions
+
+- Begin assembly from the **base** to the **end effector**.
+- Secure each joint firmly using M3 bolts and lock nuts.
+- Align servos at their neutral (90°) position before fixing.
+- Use threadlock on critical load-bearing screws.
+- Maintain consistent spacing and ensure no binding during motion.
+- For the base, use weight balancing if necessary (suggest placing a metal plate).
+
+---
+
+<!-- ### 🔗 Useful Mechanical References
+
+- [Standard Servo Horn Mounting Guide](https://www.servocity.com/how-to-mount-servo-horns/)
+- [PLA Material Data Sheet (for 3D Printed Parts)](https://www.matterhackers.com/3d-printer-filament-pla)
+- [3D Printing Tolerances Tips](https://formlabs.com/blog/3d-printing-tolerances/)
+
+--- -->
+
+### ⚠️ Mechanical Handling Notes
+
+> ⚠️ **Important:**  
+>  
+> - Avoid over-tightening bolts to prevent cracking plastic or aluminum parts.
+> - Always test free movement manually before powering the arm.
+> - Use washers where necessary to distribute load stress.
+> - Use lubricant for ball bearings if necessary.
+- Feature Exclusion: The integration of a 4th link between the end effector and the robotic arm, which would provide enhanced dexterity and range of motion, has not been implemented in this version of the design. This feature is part of our future plans and will be incorporated in a subsequent update to further improve the system's functionality.
+
+> ⚠️ **Warning** **3D Printing Tolerance Issues:** During the 3D printing process, some tolerance faults were observed in the final model, which could impact the fit and function of certain parts. It is essential to double-check the dimensions of each part before proceeding with 3D printing to ensure that everything fits together as intended.
+#### Image of the Feature Excluded:
+- The servo will be placed in the final design but wont be utilised for movement. _The feature has been circled in green_
+![Image of Feature Excluded](../assets/images/feature-excluded.png)
+
+---
+
 ## 🔗 Useful Links
 - [PCA9685 Datasheet and Pinout](https://www.espboards.dev/sensors/pca9685/#specs)
 - [DRV8825 Datasheet and Pinout](https://www.makerguides.com/drv8825-stepper-motor-driver-arduino-tutorial/)
@@ -151,3 +234,9 @@ You can implement the electronics in two ways:
 - [KiCAD Basics](https://www.youtube.com/playlist?list=PLn6004q9oeqGl91KifK6xHGuqvXGb374G)
 - [Soldering Tutorial — 1](https://www.instructables.com/A-Comprehensive-Guide-to-Soldering-Techniques-Tool/)
 - [Soldering Tutorial — 2](https://www.sciencebuddies.org/science-fair-projects/references/how-to-solder)
+- [MG995 3D MODEL](https://grabcad.com/library/mg995-servo-3)
+- [SG90 3D MODEL](https://grabcad.com/library/sg90-micro-servo-9g-tower-pro-1)
+- [Robotic Arm Collection](https://grabcad.com/library?page=1&time=all_time&query=robotic%20arm)
+  - Please note that the design available for the robotic arm are provided for reference purposes only. While they offer valuable insights, our design may differ in complexity and features, as we have opted for a simpler, more modular approach.
+  
+---
