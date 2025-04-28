@@ -187,7 +187,7 @@ This project is licensed under the **MIT License**. Refer to the [LICENSE](LICEN
 
 - [Gomathi Manisha](https://www.linkedin.com/in/gomathi-manisha-a-3894b8285) - Project Co-Lead 🚀
 
-- [Anmol Krishh](https://www.linkedin.com/in/anmolkrish/) - Project Lead and Power Electronics Lead ✨⚡️
+- [Anmol Krishnan](https://www.linkedin.com/in/anmolkrish/) - Project Lead and Power Electronics Lead ✨⚡️
     - [Shivani K.C](https://www.linkedin.com/in/shivani-k-c-543513276/) - Power Electronics Co-Lead ⚡️
 
 - [Mithill Prabhu](https://www.linkedin.com/in/mithill-prabhu/) - Design Lead ⚙️
