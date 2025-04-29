@@ -6,6 +6,15 @@
 Adafruit_MPU6050 mpu1;
 Adafruit_MPU6050 mpu2;
 
+/**
+ * @brief Initialises the two MPU6050 sensors and configures their settings.
+ *
+ * This function sets up the serial connection, initialises the two MPU6050
+ * sensors with their respective I2C addresses, and configures the settings
+ * for both sensors.
+ *
+ * @return void
+ */
 void setup() {
   Serial.begin(115200);
   while (!Serial)
@@ -40,6 +49,14 @@ void setup() {
   mpu2.setFilterBandwidth(MPU6050_BAND_5_HZ);
 }
 
+/**
+ * @brief The main loop function.
+ *
+ * This function continuously reads new sensor events from both MPU6050
+ * sensors and prints their values to the serial monitor.
+ *
+ * @return void
+ */
 void loop() {
   /* Get new sensor events for both sensors */
   sensors_event_t a1, g1, temp1;

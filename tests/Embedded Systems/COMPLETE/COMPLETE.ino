@@ -14,6 +14,12 @@ const int flexPin2 = 2;  // Second flex sensor connected to GPIO2
 Adafruit_MPU6050 mpu1;
 Adafruit_MPU6050 mpu2;
 
+/**
+ * Sets up the serial communication and initializes two MPU6050 sensors.
+ * Configures the accelerometer and gyroscope ranges, as well as the filter bandwidth for each sensor.
+ * The function waits until a connection to the serial monitor is established.
+ * If either MPU6050 sensor is not found, the setup process halts with an error message.
+ */
 void setup() {
   Serial.begin(115200);
   while (!Serial)
@@ -51,6 +57,11 @@ void setup() {
   analogSetAttenuation(ADC_11db);  
 }
 
+/**
+ * Reads the values from the flex sensors and prints their values to the serial monitor.
+ * Retrieves the sensor events for both MPU6050 sensors and prints the acceleration, rotation, and temperature values for each sensor.
+ * Waits for 500 milliseconds before taking the next reading.
+ */
 void loop() {
 
   int flexValue1 = analogRead(flexPin1);

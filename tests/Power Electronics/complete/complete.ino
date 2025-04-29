@@ -22,6 +22,14 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 
 void moveServos(int targetPosition, bool isAscending = true); 
 
+/**
+ * @brief Initializes the serial communication, I2C bus, PWM servo driver, and stepper motor.
+ *
+ * - Initializes serial communication with a baud rate of 115200.
+ * - Initializes the I2C bus.
+ * - Initializes the PWM servo driver and sets the PWM frequency to 50 Hz.
+ * - Initializes the stepper motor and sets its maximum speed, acceleration, and initial position to 6400 microsteps.
+ */
 void setup() {
   Serial.begin(115200);
 
@@ -36,6 +44,16 @@ void setup() {
   pwm.setPWMFreq(SERVO_FREQ);
 }
 
+/**
+ * @brief Continuously moves the servos and stepper motor to demonstrate a complete cycle.
+ * 
+ * @details
+ * - Moves the servos to their maximum position (180°).
+ * - Rotates the stepper motor 360° clockwise.
+ * - Returns servos to their minimum position (0°) smoothly.
+ * - Rotates the stepper motor 360° counterclockwise.
+ * - Includes delays to allow time for the motors to complete their movements.
+ */
 void loop() {
   moveServos(SERVOMAX);
   delay(1000);  
@@ -61,6 +79,13 @@ void loop() {
   delay(1000);  // Allow time for stepper to complete the movement
 }
 
+
+/**
+ * @brief Move all four servos to the target position.
+ * 
+ * @param[in] targetPosition Target position for the servos, in the range [SERVOMIN, SERVOMAX].
+ * @param[in] isAscending When true, the servos will move from SERVOMIN to SERVOMAX; when false, they will move from SERVOMAX to SERVOMIN.
+ */
 void moveServos(int targetPosition, bool isAscending) {
   int startPos = isAscending ? SERVOMIN : SERVOMAX;
   int endPos = isAscending ? SERVOMAX : SERVOMIN;

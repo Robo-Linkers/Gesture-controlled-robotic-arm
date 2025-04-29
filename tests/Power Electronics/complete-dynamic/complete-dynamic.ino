@@ -28,6 +28,14 @@ bool isAscending = true;
 
 void moveServos();  
 
+/**
+ * @brief Initializes the serial communication, I2C bus, PWM servo driver, and stepper motor.
+ *
+ * - Initializes serial communication with a baud rate of 115200.
+ * - Initializes the I2C bus.
+ * - Initializes the PWM servo driver and sets the PWM frequency to 50 Hz.
+ * - Initializes the stepper motor and sets its maximum speed, acceleration, and initial position.
+ */
 void setup() {
   Serial.begin(115200);
 
@@ -40,6 +48,15 @@ void setup() {
   pwm.setPWMFreq(SERVO_FREQ);  
 }
 
+/**
+ * @brief Executes the main control loop for the robotic arm.
+ * 
+ * @details
+ * - Moves the stepper motor 360° clockwise and sets servos to 180°.
+ * - Continuously runs the stepper motor and moves the servos incrementally.
+ * - Once stepper completes 360° clockwise, reverses its direction and sets servos back to 0°.
+ * - Both motors operate simultaneously, allowing smooth and synchronized movements.
+ */
 void loop() {
   // Move stepper motor 360° clockwise (move forward)
   if (motor.distanceToGo() == 0) {
@@ -66,6 +83,15 @@ void loop() {
   moveServos();
 }
 
+/**
+ * @brief Updates the positions of servos incrementally based on the target position and direction.
+ *
+ * @details
+ * - Checks if the interval has elapsed to update the servo position.
+ * - Increments or decrements the servo position based on the `isAscending` flag.
+ * - Reverses the direction of movement when the target position is reached.
+ * - Updates the PWM signals for all servos to reflect the current position.
+ */
 void moveServos() {
   // Check if it's time to update the servo position
   unsigned long currentMillis = millis();

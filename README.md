@@ -18,6 +18,7 @@
 - [🙏 Acknowledgments](#-acknowledgments)
   - [🤖 Meet the Team! 🤝](#-meet-the-team-)
 - [📧 Contact Information](#-contact-information)
+- [📝 Attribution](#-attribution)
 </details>
 
 ---
@@ -196,3 +197,14 @@ This project is licensed under the **MIT License**. Refer to the [LICENSE](LICEN
 
 ## 📧 Contact Information  
 - For any inquiries or feedback, please contact us at [GitHub](https://github.com/Robo-Linkers/Gesture-controlled-robotic-arm).
+
+---
+
+## 📝 Attribution
+<a href="https://www.flaticon.com/free-icons/robot" title="robot icons">Robot icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/invoice" title="invoice icons">Invoice icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/coding" title="coding icons">Coding icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/document" title="document icons">Document icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/pcb-board" title="pcb board icons">Pcb board icons created by madness - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/schematic" title="schematic icons">Schematic icons created by Iconjam - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/software-development" title="software development icons">Software development icons created by kliwir art - Flaticon</a>
