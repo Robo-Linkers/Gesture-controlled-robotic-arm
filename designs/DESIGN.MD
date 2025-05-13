@@ -128,7 +128,7 @@ You can implement the electronics in two ways:
 ---
 
 ## 🛠️ Wiring Instructions
-- Ensure the all components are upto the rating as mentioned in the [BOM](../docs/Bill_of_Materials_Electrical.pdf)
+- Ensure the all components are upto the rating as mentioned in the [BOM](Bill_of_Materials_Electrical.pdf)
 - Make sure the pinout of your component matches the one provided in the schematic
 - If a perfboard based design if being followed ensure that each voltage levels have different rails (think of it as a path for the current), the ground can occupy a single common rail.
 -  [🔌 1. Power Electronics Schematic ](#-1-power-electronics-schematic) — 
@@ -211,10 +211,11 @@ The structure is designed to be lightweight, modular, and easily reproducible us
 > - Use lubricant for ball bearings if necessary.
 - Feature Exclusion: The integration of a 4th link between the end effector and the robotic arm, which would provide enhanced dexterity and range of motion, has not been implemented in this version of the design. This feature is part of our future plans and will be incorporated in a subsequent update to further improve the system's functionality.
 
-> ⚠️ **Warning** **3D Printing Tolerance Issues:** During the 3D printing process, some tolerance faults were observed in the final model, which could impact the fit and function of certain parts. It is essential to double-check the dimensions of each part before proceeding with 3D printing to ensure that everything fits together as intended.
 #### Image of the Feature Excluded:
 - The servo will be placed in the final design but wont be utilised for movement. _The feature has been circled in green_
 ![Image of Feature Excluded](../assets/images/feature-excluded.png)
+
+> ⚠️ **Warning** **3D Printing Tolerance Issues:** During the 3D printing process, some tolerance faults were observed in the final model, which could impact the fit and function of certain parts. It is essential to double-check the dimensions of each part before proceeding with 3D printing to ensure that everything fits together as intended.
 
 ---
 

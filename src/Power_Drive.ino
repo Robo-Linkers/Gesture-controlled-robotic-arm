@@ -14,8 +14,8 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x40);
 #define WRIST_SERVO 2
 
 // Stepper Motor (Base Rotation)
-#define STEP_PIN 26
-#define DIR_PIN 27
+#define STEP_PIN 4
+#define DIR_PIN 2
 AccelStepper stepper(AccelStepper::DRIVER, STEP_PIN, DIR_PIN);
 
 // Servo Angles
@@ -61,8 +61,8 @@ void setup()
     pwm.begin();
     pwm.setPWMFreq(50);
 
-    stepper.setMaxSpeed(2000);
-    stepper.setAcceleration(100);
+    stepper.setMaxSpeed(3000);
+    stepper.setAcceleration(3000);
 
     WiFi.begin(ssid, password);
     mqttClient.setServer(mqttServer, mqttPort);
@@ -137,7 +137,7 @@ void mqttCallback(char* topic, byte* message, unsigned int length) {
  */
 void controlStepper(float angle)
 {
-    stepper.moveTo(map(angle, -90, 90, -1000, 1000));
+    stepper.moveTo(map(angle, -90, 90, -3200, 3200));
 }
 
 /**
