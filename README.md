@@ -91,44 +91,77 @@ Once you've uploaded both codes to the respective boards, your setup should be r
 ## 📂 Folder Structure  
 ```bash
 Gesture-controlled-robotic-arm/
-├── .gitignore
-├── LICENSE
-├── README.md
-├── assets/
-│   └── icons/
-│       ├── 3-dof-arm.png
-│       ├── binary-code.png
-│       ├── docs.png
-│       ├── pcb-board.png
-│       └── schematic.png
-├── designs/
-│   ├── DESIGN.MD
-│   ├── Schematic_Glove-Robotic-Arm_2025-01-13.pdf
-│   └── Schematic_Power-Drive-Controlled-Robotic-Arm_2025-01-13.pdf
-├── logs/
-│   ├── glove_control.log
-│   └── power_drive.log
-├── src/
-│   ├── Glove.ino
-│   └── Power_Drive.ino
-└── tests/
-    ├── Embedded Systems/
-    │   ├── COMPLETE/
-    │   │   └── COMPLETE.ino
-    │   ├── DUAL-MPU6050/
-    │   │   └── DUAL-MPU6050.ino
-    │   └── FLEX-SENSORS/
-    │       └── FLEX-SENSORS.ino
-    └── Power Electronics/
-        ├── complete-dynamic/
-        │   └── complete-dynamic.ino
-        ├── complete/
-        │   └── complete.ino
-        ├── nema_17_test/
-        │   └── nema_17_test.ino
-        └── servo_test/
-            └── servo_test.ino
-    └── TESTS.MD
+│   .gitignore
+│   CONTRIBUTING.md
+│   LICENSE
+│   README.md
+│   requirements.txt
+│   TODO.MD
+│   
+├───assets
+│   ├───icons
+│   │       3-dof-arm.png
+│   │       bill.png
+│   │       binary-code.png
+│   │       docs.png
+│   │       pcb-board.png
+│   │       schematic.png
+│   │       testing.png
+│   │
+│   └───images
+│           feature-excluded.png
+│           mechanical-assembly-ss-front.png
+│           mechanical-assembly-ss.png
+│           Screenshot 2025-02-11 091135.png
+│           Screenshot 2025-02-11 091319.png
+│
+├───designs
+│   │   BASE v14.step
+│   │   Bill_of_Materials_Electrical.pdf
+│   │   BOM.MD
+│   │   DESIGN.MD
+│   │   Schematic_Glove-Gesture-Controlled-Robotic-Arm_2025-04-26.pdf
+│   │   Schematic_Power-Drive-Gesture-Controlled-Robotic-Arm_2025-04-26.pdf
+│   │
+│   └───Solid-edge
+│           BASE-v14-solid-edge.asm
+│           BASE-v14-solid-edge.cfg
+│
+├───docs
+├───logs
+│       glove_control.log
+│       power_drive.log
+│
+├───src
+│       Glove.ino
+│       Power_Drive.ino
+│
+├───tests
+│   │   TESTS.MD
+│   │
+│   ├───Embedded Systems
+│   │   ├───COMPLETE
+│   │   │       COMPLETE.ino
+│   │   │
+│   │   ├───DUAL-MPU6050
+│   │   │       DUAL-MPU6050.ino
+│   │   │
+│   │   └───FLEX-SENSORS
+│   │           FLEX-SENSORS.ino
+│   │
+│   └───Power Electronics
+│       ├───complete
+│       │       complete.ino
+│       │
+│       ├───complete-dynamic
+│       │       complete-dynamic.ino
+│       │
+│       ├───nema_17_test
+│       │       nema_17_test.ino
+│       │
+│       └───servo_test
+│               servo_test.ino
+.
 ```
 ---
 ## 🦾 Project Showcase

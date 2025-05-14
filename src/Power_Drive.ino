@@ -19,7 +19,7 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x40);
 AccelStepper stepper(AccelStepper::DRIVER, STEP_PIN, DIR_PIN);
 
 // Servo Angles
-int baseAngle = 90, shoulderAngle = 90, elbowAngle = 90, wristAngle = 90;
+int baseAngle = 0, shoulderAngle = 0, elbowAngle = 0, wristAngle = 0;
 bool gripperClosed = false;
 
 // Wi-Fi and MQTT Credentials
