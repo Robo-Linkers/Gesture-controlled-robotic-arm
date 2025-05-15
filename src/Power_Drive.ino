@@ -30,6 +30,10 @@ const int mqttPort = 1883;
 const char *mqttUser = "Your_MQTT_Username";
 const char *mqttPassword = "Your_MQTT_Password";
 
+// Led Pins
+const int wifiLedPin = 19;  // Wi-Fi LED on GPIO-19
+const int mqttLedPin = 18;  // MQTT LED on GPIO-18
+
 // MQTT Client
 WiFiClient espClient;
 PubSubClient mqttClient(espClient);
@@ -58,11 +62,17 @@ void setup()
     Serial.begin(115200);
     Wire.begin();
 
+    pinMode(wifiLedPin, OUTPUT);  // Set Wi-Fi LED pin as output
+    pinMode(mqttLedPin, OUTPUT);  // Set MQTT LED pin as output
+    
     pwm.begin();
     pwm.setPWMFreq(50);
 
     stepper.setMaxSpeed(3000);
     stepper.setAcceleration(3000);
+
+    smoothStartToAngle(SHOULDER_SERVO,0);
+    smoothStartToAngle(ELBOW_SERVO,0);
 
     WiFi.begin(ssid, password);
     mqttClient.setServer(mqttServer, mqttPort);
@@ -74,6 +84,7 @@ void setup()
         delay(500);
     }
     Serial.println("WiFi connected!");
+    updateLedStatus();  // Update LED status after Wi-Fi is connected
 
     while (!mqttClient.connected())
     {
@@ -82,6 +93,7 @@ void setup()
         {
             Serial.println("Connected to MQTT.");
             mqttClient.subscribe("robot/angles");
+            updateLedStatus();  // Update LED status after MQTT is connected
         }
         else
         {
@@ -90,6 +102,7 @@ void setup()
         }
     }
     updateServos();
+    updateLedStatus();  // Update LED status
 }
 
 /**
@@ -168,4 +181,49 @@ int angleToPulse(int angle)
 {
     int pulse = map(angle, 0, 180, 150, 600); // 150-600 is a good range for most servos
     return pulse;
+}
+
+/**
+ * @brief Updates the status of the Wi-Fi and MQTT LEDs.
+ *        The Wi-Fi LED is HIGH if Wi-Fi is connected, LOW otherwise.
+ *        The MQTT LED is HIGH if MQTT is connected, LOW otherwise.
+ * @details
+ * - Uses the digitalWrite() function to set the LED pin to HIGH or LOW.
+ * - Wi-Fi status is checked using the WiFi.status() function.
+ * - MQTT status is checked using the mqttClient.connected() function.
+ */
+void updateLedStatus() {
+    // Toggle Wi-Fi LED based on Wi-Fi connection status
+    digitalWrite(wifiLedPin, (WiFi.status() == WL_CONNECTED) ? HIGH : LOW);
+
+    // Toggle MQTT LED based on MQTT connection status
+    digitalWrite(mqttLedPin, (mqttClient.connected()) ? HIGH : LOW);
+}
+
+
+/**
+ * @brief Smoothly moves a servo motor to a target angle from an assumed starting angle.
+ *        The servo motor will be moved to the target angle in a smooth, incremental manner.
+ *        The assumed starting angle is 90 degrees.
+ *        The delay between each incremental movement is specified by the delayMs parameter.
+ *        The servo motor will move to the specified angle and stop.
+ * @param[in] channel PWM channel to control the servo motor.
+ * @param[in] targetAngle Target angle to move the servo motor to, in degrees.
+ * @param[in] delayMs Delay between each incremental movement, in milliseconds. Default is 20ms.
+ */
+void smoothStartToAngle(int channel, int targetAngle, int delayMs = 20) {
+  int assumedStart = 90;
+
+  // Sweep from assumed position to target
+  if (targetAngle < assumedStart) {
+    for (int angle = assumedStart; angle >= targetAngle; angle--) {
+      pwm.setPWM(channel, 0, angleToPulse(angle));
+      delay(delayMs);
+    }
+  } else {
+    for (int angle = assumedStart; angle <= targetAngle; angle++) {
+      pwm.setPWM(channel, 0, angleToPulse(angle));
+      delay(delayMs);
+    }
+  }
 }
