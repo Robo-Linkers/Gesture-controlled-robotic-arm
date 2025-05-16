@@ -15,19 +15,27 @@ const char *mqttPassword = "Your_MQTT_Password";
 WiFiClient espClient;
 PubSubClient mqttClient(espClient);
 
-// MPU6050 Sensors
-MPU6050 mpuServo, mpuStepper;
+// MPU6050 Sensors (with different I2C addresses)
+MPU6050 mpuServo(0x68);   // AD0 = GND default address
+MPU6050 mpuStepper(0x69); // AD0 = VCC
 
 // FSR Configuration
-#define FSR1_PIN 34 // FSR for Gripper
-#define FSR2_PIN 35 // Second FSR for additional grip check
+#define FSR1_PIN 34     // FSR for Gripper
+#define FSR2_PIN 35     // Second FSR for additional grip check
+#define Touch_Sensor 18 // Touch Sensor Pin
 int fsr1Value, fsr2Value;
 
 // Kalman Filter Variables
-float angleServoX, angleServoX2, angleStepperY;
-float biasServoX = 0, biasServoX2 = 0, biasStepperY = 0;
-float P[2][2] = {{1, 0}, {0, 1}};
+float angleServoX, angleServoY2, angleStepperY;
+float biasServoX = 0, biasServoY2 = 0, biasStepperY = 0;
+float P_ServoX[2][2] = {{1, 0}, {0, 1}};
+float P_ServoY2[2][2] = {{1, 0}, {0, 1}};
+float P_StepperY[2][2] = {{1, 0}, {0, 1}};
 const float kalmanQ = 0.001, kalmanR = 0.03, dt = 0.05; // Smooth update delay
+bool gripLatched = false;                               // Latched grip state
+bool lastTouchState = LOW;                              // Previous sensor state
+unsigned long lastDebounceTime = 0;
+const unsigned long debounceDelay = 50; // Adjust as needed
 
 // Function Prototypes
 void connectToWiFi();
@@ -35,7 +43,7 @@ void ensureWiFiConnection();
 void connectToMQTT();
 void ensureMQTTConnection();
 void kalmanFilter(float &angle, float &bias, float newAngle, float newRate);
-void sendAnglesToMQTT(float angleServoX, float angleServoX2, float angleStepperY, bool gripActive);
+void sendAnglesToMQTT(float angleServoX, float angleServoY2, float angleStepperY, bool gripActive);
 
 // Delay for smoother updates
 unsigned long previousMillis = 0;
@@ -61,6 +69,9 @@ void setup()
     mpuServo.initialize();
     mpuStepper.initialize();
 
+    // Touch sensor as input
+    // pinMode(Touch_Sensor, INPUT); // Uncomment if using touch sensor
+
     if (!mpuServo.testConnection() || !mpuStepper.testConnection())
     {
         Serial.println("MPU6050 initialization failed!");
@@ -84,15 +95,17 @@ void setup()
  * - Ensures MQTT connection with the provided server and port.
  * - Reads data from the MPU6050 sensors for the servos and the stepper motor.
  * - Applies the Kalman filter to the data to reduce noise and jitter.
- * - Reads data from the FSR sensors to detect grip activity.
+ * - Reads data from the FSR sensors and Touch sensor to detect grip activity.
  * - Sends the filtered data to the MQTT broker.
  */
-void loop() {
+void loop()
+{
     ensureWiFiConnection();
     ensureMQTTConnection();
 
     unsigned long currentMillis = millis();
-    if (currentMillis - previousMillis >= interval) {
+    if (currentMillis - previousMillis >= interval)
+    {
         previousMillis = currentMillis;
 
         // Read MPU6050 data for Servo and Stepper
@@ -101,25 +114,40 @@ void loop() {
         float accelAngleX = atan2(ay, sqrt(ax * ax + az * az)) * 180.0 / M_PI;
         float accelStepperY = atan2(-ax, sqrt(ay * ay + az * az)) * 180.0 / M_PI;
         float gyroRateX = gx / 131.0, gyroStepperY = gy / 131.0;
-        kalmanFilter(angleServoX, biasServoX, accelAngleX, gyroRateX); // 1st servo "X" angle
-        kalmanFilter(angleStepperY, biasStepperY, accelStepperY, gyroStepperY); // Stepper "Y" angle
+        kalmanFilter(angleServoX, biasServoX, accelAngleX, gyroRateX, P_ServoX);          // 1st servo "X" angle
+        kalmanFilter(angleStepperY, biasStepperY, accelStepperY, gyroStepperY, P_StepperY); // Stepper "Y" angle
 
-        
         // Read MPU6050 data for 2nd Servo
         int16_t ax2, ay2, az2, gx2, gy2, gz2;
         mpuStepper.getMotion6(&ax2, &ay2, &az2, &gx2, &gy2, &gz2);
-        float accelAngleX2 = atan2(ay2, sqrt(ax2 * ax2 + az2 * az2)) * 180.0 / M_PI;
-        float gyroRateX2 = gx2 / 131.0;
-        kalmanFilter(angleServoX2, biasServoX2, accelAngleX2, gyroRateX2);
-
+        float accelAngleY2 = atan2(-ax2, sqrt(ax2 * ax2 + az2 * az2)) * 180.0 / M_PI;
+        float gyroRateY2 = gy2 / 131.0;
+        kalmanFilter(angleServoY2, biasServoY2, accelAngleY2, gyroRateY2, P_ServoY2);
 
         // Read FSR sensor values
         fsr1Value = analogRead(FSR1_PIN);
         fsr2Value = analogRead(FSR2_PIN);
-        bool gripActive = (fsr1Value > 500 || fsr2Value > 500);
+
+        // Read touch sensor value. Uncomment lines below if using touch sensor
+        // bool reading = digitalRead(Touch_Sensor);
+
+        // if (reading != lastTouchState) {
+        //     lastDebounceTime = millis();  // reset debounce timer
+        // }
+
+        // if ((millis() - lastDebounceTime) > debounceDelay) {
+        //     if (reading == HIGH && lastTouchState == LOW) {
+        //         gripLatched = !gripLatched; // toggle grip state only on valid rising edge
+        //     }
+        // }
+
+        // lastTouchState = reading;
+
+        // Determine grip status
+        bool gripActive = (fsr1Value > 200 || fsr2Value > 50 || gripLatched);
 
         // Send data via MQTT
-        sendAnglesToMQTT(angleServoX, angleServoX2, angleStepperY, gripActive);
+        sendAnglesToMQTT(angleServoX, angleServoY2, angleStepperY, gripActive);
     }
 }
 
@@ -135,29 +163,35 @@ void loop() {
  *                          the elbow rotation in degrees.
  * @param[in] gripActive true if the grip is active, false otherwise.
  */
-void sendAnglesToMQTT(float angleServoX, float angleServoX2, float angleStepperY, bool gripActive)
+void sendAnglesToMQTT(float angleServoX, float angleServoY2, float angleStepperY, bool gripActive)
 {
     char msg[50];
-    snprintf(msg, sizeof(msg), "SX:%.2f,SX2:%.2f,SY:%.2f,GR:%d", angleServoX, angleServoX2, angleStepperY, gripActive);
+    snprintf(msg, sizeof(msg), "SX:%.2f,SY2:%.2f,ST:%.2f,GR:%d", angleServoX, angleServoY2, angleStepperY, gripActive);
     mqttClient.publish("robot/angles", msg);
+    
+    // Debugging Statements below uncomment to see the output
+//     if (!mqttClient.publish("robot/angles", msg)) {
+//       Serial.println("Failed to publish angles!");
+//   } else {
+//       Serial.print("Published angles: ");
+//       Serial.println(msg);
+//   }
 }
 
+
 /**
- * @brief Applies the Kalman filter to the given angle and rate.
- * @details
- * - Computes the rate of change of the angle.
- * - Updates the angle and bias using the rate of change.
- * - Updates the covariance matrix using the rate of change and
- *   the measurement noise.
- * - Computes the Kalman gain.
- * - Updates the angle and bias using the Kalman gain.
- * - Updates the covariance matrix using the Kalman gain.
- * @param[in,out] angle The angle to filter.
- * @param[in,out] bias The bias of the angle.
+ * @brief Applies the Kalman filter to estimate the angle and bias.
+ * @param[in,out] angle Reference to the angle estimate, updated with the filtered value.
+ * @param[in,out] bias Reference to the bias estimate, updated with the filtered value.
  * @param[in] newAngle The new angle measurement.
- * @param[in] newRate The new rate measurement.
+ * @param[in] newRate The new rate measurement from the gyroscope.
+ * @param[in,out] P The error covariance matrix, updated during the filtering process.
+ * @details
+ * - The function uses the Kalman filter algorithm to reduce noise in angle and bias readings.
+ * - It updates the angle and bias using a prediction-correction model.
+ * - The error covariance matrix P is adjusted to reflect the uncertainty in the estimates.
  */
-void kalmanFilter(float &angle, float &bias, float newAngle, float newRate)
+void kalmanFilter(float &angle, float &bias, float newAngle, float newRate, float P[2][2])
 {
     float rate = newRate - bias;
     angle += dt * rate;

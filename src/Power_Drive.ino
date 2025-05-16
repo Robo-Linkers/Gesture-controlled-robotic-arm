@@ -43,6 +43,7 @@ void updateServos();
 void mqttCallback(char *topic, byte *message, unsigned int length);
 int angleToPulse(int angle);
 void controlStepper(float angle);
+void smoothStartToAngle(int channel, int targetAngle, int delayMs = 20);
 
 /**
  * @brief Initializes the serial communication, I2C bus, PWM servo driver, and stepper motor.
@@ -119,7 +120,7 @@ void loop()
 /**
  * @brief MQTT callback function.
  *        Updates the servo angles and the stepper motor when an MQTT message is received.
- *        The message should be in the format "SX:<angleServoX>,SX2:<angleServoX2>,ST:<angleStepperY>,GR:<grip>".
+ *        The message should be in the format "SX:<angleServoX>,SY2:<angleServoY2>,ST:<angleStepperY>,GR:<grip>".
  * @param[in] topic MQTT topic of the message.
  * @param[in] message MQTT message payload.
  * @param[in] length Length of the MQTT message payload.
@@ -129,13 +130,15 @@ void mqttCallback(char* topic, byte* message, unsigned int length) {
     for (unsigned int i = 0; i < length; i++) {
         data += (char)message[i];
     }
+    // Print received data for debugging purposes uncomment if needed
+    // Serial.println("Received: " + data); 
     
-    float angleServoX, angleServoX2, angleStepperY;
+    float angleServoX, angleServoY2, angleStepperY;
     int grip;
-    sscanf(data.c_str(), "SX:%f,SX2:%f,ST:%f,GR:%d", &angleServoX, &angleServoX2, &angleStepperY, &grip);
+    sscanf(data.c_str(), "SX:%f,SY2:%f,ST:%f,GR:%d", &angleServoX, &angleServoY2, &angleStepperY, &grip);
 
     shoulderAngle = map(angleServoX, -90, 90, 0, 180);
-    elbowAngle = map(angleServoX2, -90, 90, 0, 180);
+    elbowAngle = map(angleServoY2, -90, 90, 0, 180);
     gripperClosed = grip;
 
     controlStepper(angleStepperY);
@@ -211,7 +214,7 @@ void updateLedStatus() {
  * @param[in] targetAngle Target angle to move the servo motor to, in degrees.
  * @param[in] delayMs Delay between each incremental movement, in milliseconds. Default is 20ms.
  */
-void smoothStartToAngle(int channel, int targetAngle, int delayMs = 20) {
+void smoothStartToAngle(int channel, int targetAngle, int delayMs) {
   int assumedStart = 90;
 
   // Sweep from assumed position to target
