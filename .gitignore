@@ -1,4 +1,4 @@
 TODO.MD
-old
-logs
-.log
+old/
+logs/
+*.log

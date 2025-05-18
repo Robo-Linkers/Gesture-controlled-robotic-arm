@@ -26,8 +26,8 @@ The `tests` folder is organized into two main categories:
 
 -   **Power Electronics**: Contains tests related to power electronics projects.
 
-    -   `complete`: Contains a complete power electronics project.
-    -   `complete-dynamic`: Contains tests for a complete dynamic power electronics system.
+    -   `complete`: Contains a complete power electronics project, the stepper and servo **don't** move together.
+    -   `complete-dynamic`: Contains tests for a complete dynamic power electronics system, by dynamic what is meant is both the servo and stepper motors move together. This test code will aid in determining the maximum current draw needed.
     -   `nema_17_test`: Contains tests for NEMA 17 stepper motors.
     -   `servo_test`: Contains tests for servo motors.
 ---

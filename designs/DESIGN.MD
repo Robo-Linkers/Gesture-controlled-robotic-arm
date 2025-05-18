@@ -113,6 +113,7 @@ You can implement the electronics in two ways:
 - **Notes**:
   - Operates at 3.3V logic levels.
   - Input supply is 9V regulated down. Ensure the input provided is between 6V to 12V
+  - >⚠️ **Note**: The touch sensor feature has been omitted from the current version and is planned for a future release
 
 ### Final PCB for Glove Control
 <div align ="center">
@@ -194,10 +195,10 @@ The structure is designed to be lightweight, modular, and easily reproducible us
 
 - Begin assembly from the **base** to the **end effector**.
 - Secure each joint firmly using M3 bolts and lock nuts.
-- Align servos at their neutral (90°) position before fixing.
+- Align servos at their neutral (90°) or zero position (0°) position before fixing.
 - Use threadlock on critical load-bearing screws.
 - Maintain consistent spacing and ensure no binding during motion.
-- For the base, use weight balancing if necessary (suggest placing a metal plate).
+- For the base, use weight balancing if necessary (placing a metal plate or any apporpriate weights).
 
 ---
 
@@ -215,7 +216,7 @@ The structure is designed to be lightweight, modular, and easily reproducible us
 - The servo will be placed in the final design but wont be utilised for movement. _The feature has been circled in green_
 ![Image of Feature Excluded](../assets/images/feature-excluded.png)
 
-> ⚠️ **Warning** **3D Printing Tolerance Issues:** During the 3D printing process, some tolerance faults were observed in the final model, which could impact the fit and function of certain parts. It is essential to double-check the dimensions of each part before proceeding with 3D printing to ensure that everything fits together as intended.
+> ⚠️ **Warning** **3D Printing Tolerance Issues:** Significant tolerance issues were encountered during the 3D printing and mechanical assembly of the robotic arm. Misalignments, incorrect fits, and dimensional inaccuracies affected the integration of multiple components. It is **strongly recommended** to carefully inspect, measure, and, if necessary, modify the 3D models before printing. Pay special attention to part interfaces, mounting holes, and moving joints to ensure a smooth assembly and functional operation.
 
 ---
 
@@ -230,6 +231,6 @@ The structure is designed to be lightweight, modular, and easily reproducible us
 - [MG995 3D MODEL](https://grabcad.com/library/mg995-servo-3)
 - [SG90 3D MODEL](https://grabcad.com/library/sg90-micro-servo-9g-tower-pro-1)
 - [Robotic Arm Collection](https://grabcad.com/library?page=1&time=all_time&query=robotic%20arm)
-  - Please note that the design available for the robotic arm are provided for reference purposes only. While they offer valuable insights, our design may differ in complexity and features, as we have opted for a simpler, more modular approach.
+  - Please note that the design available for the robotic arm are provided for reference purposes only. While they offer valuable and powerful insights, our design may differ in complexity and features, as we have opted for a simpler, more modular approach.
   
 ---

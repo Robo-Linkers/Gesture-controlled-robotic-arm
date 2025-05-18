@@ -34,6 +34,9 @@ const char *mqttPassword = "Your_MQTT_Password";
 const int wifiLedPin = 19;  // Wi-Fi LED on GPIO-19
 const int mqttLedPin = 18;  // MQTT LED on GPIO-18
 
+float prevAngles[2] = {0, 0};  // 2 joints 
+const float MAX_STEP = 3.0;             // Maximum angle change per update (degrees)
+
 // MQTT Client
 WiFiClient espClient;
 PubSubClient mqttClient(espClient);
@@ -156,19 +159,33 @@ void controlStepper(float angle)
     stepper.moveTo(map(angle, -90, 90, -3200, 3200));
 }
 
+
 /**
- * @brief Updates the servo angles of the robotic arm.
- *        The angles should be in the range of 0-180 degrees.
- *        The servos will move to the specified angle and stop.
+ * @brief Updates the servo motor positions for shoulder, elbow, and wrist joints.
+ *        The function ensures smooth transitions by limiting the change in angle
+ *        per update to a maximum step size. The wrist servo is controlled based
+ *        on the gripper state, either fully open or fully closed.
  * @details
- * - Updates the servo angles using the Adafruit_PWMServoDriver library.
- * - The angles are mapped from 0-180 degrees to the specified range of the servos.
- * - The servos will move to the specified angle and stop.
+ * - The shoulder and elbow servo angles are updated incrementally to ensure smooth movement.
+ * - The delta angle is capped by MAX_STEP to prevent abrupt movements.
+ * - The wrist servo is set to 0 degrees if the gripper is closed and 180 degrees if open.
  */
 void updateServos()
 {
-    pwm.setPWM(SHOULDER_SERVO, 0, angleToPulse(shoulderAngle));
-    pwm.setPWM(ELBOW_SERVO, 0, angleToPulse(elbowAngle));
+    // Shoulder
+    float deltaS = shoulderAngle - prevAngles[0];
+    if (abs(deltaS) > MAX_STEP) deltaS = (deltaS > 0) ? MAX_STEP : -MAX_STEP;
+    prevAngles[0] += deltaS;
+    // Serial.println("Old S: " + String(shoulderAngle) + " New S: " + String(prevAngles[0])); // For debugging uncomment if needed
+    pwm.setPWM(SHOULDER_SERVO, 0, angleToPulse(prevAngles[0]));
+
+    // Elbow
+    float deltaE = elbowAngle - prevAngles[1];
+    if (abs(deltaE) > MAX_STEP) deltaE = (deltaE > 0) ? MAX_STEP : -MAX_STEP;
+    prevAngles[1] += deltaE;
+    // Serial.println("Old E: " + String(elbowAngle) + " New E: " + String(prevAngles[1])); // For debugging uncomment if needed
+    pwm.setPWM(ELBOW_SERVO, 0, angleToPulse(prevAngles[1]));
+
     pwm.setPWM(WRIST_SERVO, 0, angleToPulse(gripperClosed ? 0 : 180));
 }
 

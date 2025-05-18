@@ -1,4 +1,4 @@
-<h1 align="center">Gesture-Controlled Robotic Arm</h1>
+<h1 align="center">Gesture Controlled Robotic Arm</h1>
 
 <p align="center">
   <img src="assets/icons/3-dof-arm.png" alt="3-DOF Arm" width="200">
@@ -33,10 +33,17 @@ Control is achieved via a **glove-based gesture system**, equipped with **flex s
 
 ## ✨ Features  
 
-✅ **4-link robotic arm structure** for precise movement
-✅ **Gesture-based control** using flex sensors and an accelerometer  
-✅ **Pick-and-place functionality** for automation tasks  
-✅ **Intuitive user interface** for seamless control  
+🤖 4-Link Robotic Arm Structure
+    ➤ Enables precise and flexible movement
+
+🖐️ Gesture-Based Control
+    ➤ Uses flex sensors and an accelerometer for intuitive interaction
+
+📦 Pick-and-Place Functionality
+    ➤ Automates repetitive tasks with ease
+
+🧭 Intuitive User Interface
+    ➤ Offers seamless and user-friendly control 
 
 > **Note:**  
 > The integration of a 4th link between the end effector and the robotic arm is part of our planned system expansion.  
@@ -52,7 +59,7 @@ Control is achieved via a **glove-based gesture system**, equipped with **flex s
 - To set up the project, follow these steps: 
 - Clone the repository:
 - ```bash
-  git clone https://github.com/Robo-Linkers/Gesture-controlled-robotic-arm.git
+  git clone https://github.com/Robo-Linkers/Gesture-controlled-robotic-arm.git 
   ```
 - Install any necessary dependencies [REQUIREMENTS](requirements.txt)
 - Navigate to the project directory:
@@ -67,6 +74,8 @@ Control is achieved via a **glove-based gesture system**, equipped with **flex s
 
 Once you've uploaded both codes to the respective boards, your setup should be ready for further testing.
 - For building the hardware and assembling the robotic arm, refer to the detailed setup and wiring instructions in the [DESIGN.MD](./designs/DESIGN.MD) file. This includes schematics, PCB & hardware designs, and wiring connections necessary to physically construct the system.
+-  All Markdown files are available as HTML in the [docs/](./docs) section — check it out for easy browsing and reference.
+-  [README.HTML](https://html-preview.github.io/?url=https://github.com/Robo-Linkers/Gesture-controlled-robotic-arm/blob/main/docs/README.html), [DESIGN.HTML](https://html-preview.github.io/?url=https://github.com/Robo-Linkers/Gesture-controlled-robotic-arm/blob/main/docs/DESIGN.html), [TESTS.HTML](https://html-preview.github.io/?url=https://github.com/Robo-Linkers/Gesture-controlled-robotic-arm/blob/main/docs/TESTS.html), [BOM.HTML](https://html-preview.github.io/?url=https://github.com/Robo-Linkers/Gesture-controlled-robotic-arm/blob/main/docs/BOM.html)
 ---
 
 ## 🚀 Usage Instructions  
@@ -173,7 +182,7 @@ Gesture-controlled-robotic-arm/
 ## 🔧 Use Cases  
 
 💡 **Manufacturing** → Automating repetitive tasks like assembly & packaging  
-🏥 **Healthcare** → Assisting in surgeries or rehabilitation exercises  
+🔧 **Remote Operation in Hazardous Environments** → Safely handling objects in high-risk areas such as labs or hot zones using remote gesture control
 🎓 **Education** → Demonstrating robotics concepts in academic settings  
 🧪 **Research** → Exploring human-robot interaction and automation  
 
@@ -190,9 +199,9 @@ Gesture-controlled-robotic-arm/
   - Improve reliability and response time of the ESP32-based communication system.
 
 - 🚀 **Battery Power Support**
-  - Add portable power options to make the system independent of a fixed AC supply.
+  - Add portable power options to make the system independent of a fixed AC supply and make a rechargeable solution for glove.
 
-- 🚀 **Vision-Based Object Tracking (Optional)**
+- 🚀 **Vision-Based Object Tracking**
   - Future iterations may incorporate a lightweight camera module for autonomous object detection and tracking.
 
 - 🚀 **Mechanical Redesign**
@@ -230,7 +239,7 @@ This project is licensed under the **MIT License**. Refer to the [LICENSE](LICEN
 ---
 
 ## 📧 Contact Information  
-- For any inquiries or feedback, please contact us at [GitHub](https://github.com/Robo-Linkers/Gesture-controlled-robotic-arm).
+- For any inquiries or feedback, please contact us at [GitHub](https://github.com/Robo-Linkers/Gesture-controlled-robotic-arm), [GitLab](https://gitlab.com/robo-linkers/Gesture-controlled-robotic-arm)
 
 ---
 
