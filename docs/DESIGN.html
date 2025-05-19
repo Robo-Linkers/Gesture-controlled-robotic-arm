@@ -303,18 +303,25 @@
         </li>
       </ul>
     </nav>
-
     <h2 id="overview">📖 Overview</h2>
+
     <p>
       This folder contains three important schematic files related to the design
       of the Robotic Arm project. Each schematic serves a specific purpose and
       is crucial for the development and integration of the power electronics
-      and embedded systems. &gt; 📄 All schematics are provided in PDF format
-      for easy viewing and printing. &gt; All the voltages mentioned are in DC
-      unless specified. &gt; Designed and documented by
-      <strong>IoRT Club</strong> - Embedded &amp; Power Crew.
+      and embedded systems.
     </p>
+
+    <blockquote>
+      📄 All schematics are provided in PDF format for easy viewing and
+      printing.<br />
+      All the voltages mentioned are in DC unless specified.<br />
+      Designed and documented by <strong>IoRT Club</strong> - Embedded &amp;
+      Power Crew.
+    </blockquote>
+
     <hr />
+
     <h2 id="implementation-note">🛠️ Implementation Note</h2>
     <p>You can implement the electronics in two ways:</p>
     <ul>
@@ -499,6 +506,15 @@
             Input supply is 9V regulated down. Ensure the input provided is
             between 6V to 12V
           </li>
+          <li>
+            <blockquote>
+              <p>
+                ⚠️ <strong>Note</strong>: The touch sensor feature has been
+                omitted from the current version and is planned for a future
+                release
+              </p>
+            </blockquote>
+          </li>
         </ul>
       </li>
     </ul>
@@ -668,12 +684,15 @@
         <strong>end effector</strong>.
       </li>
       <li>Secure each joint firmly using M3 bolts and lock nuts.</li>
-      <li>Align servos at their neutral (90°) position before fixing.</li>
+      <li>
+        Align servos at their neutral (90°) or zero position (0°) position
+        before fixing.
+      </li>
       <li>Use threadlock on critical load-bearing screws.</li>
       <li>Maintain consistent spacing and ensure no binding during motion.</li>
       <li>
-        For the base, use weight balancing if necessary (suggest placing a metal
-        plate).
+        For the base, use weight balancing if necessary (placing a metal plate
+        or any apporpriate weights).
       </li>
     </ul>
     <hr />
@@ -714,11 +733,14 @@
     <blockquote>
       <p>
         ⚠️ <strong>Warning</strong>
-        <strong>3D Printing Tolerance Issues:</strong> During the 3D printing
-        process, some tolerance faults were observed in the final model, which
-        could impact the fit and function of certain parts. It is essential to
-        double-check the dimensions of each part before proceeding with 3D
-        printing to ensure that everything fits together as intended.
+        <strong>3D Printing Tolerance Issues:</strong> Significant tolerance
+        issues were encountered during the 3D printing and mechanical assembly
+        of the robotic arm. Misalignments, incorrect fits, and dimensional
+        inaccuracies affected the integration of multiple components. It is
+        <strong>strongly recommended</strong> to carefully inspect, measure,
+        and, if necessary, modify the 3D models before printing. Pay special
+        attention to part interfaces, mounting holes, and moving joints to
+        ensure a smooth assembly and functional operation.
       </p>
     </blockquote>
     <hr />
@@ -780,9 +802,9 @@
         <ul>
           <li>
             Please note that the design available for the robotic arm are
-            provided for reference purposes only. While they offer valuable
-            insights, our design may differ in complexity and features, as we
-            have opted for a simpler, more modular approach.
+            provided for reference purposes only. While they offer valuable and
+            powerful insights, our design may differ in complexity and features,
+            as we have opted for a simpler, more modular approach.
           </li>
         </ul>
       </li>
