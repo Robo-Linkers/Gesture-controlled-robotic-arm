@@ -1,1 +1,2 @@
-/docs/** linguist-documentation # ignore documentation files
+# ignore documentation files
+/docs/** linguist-documentation 

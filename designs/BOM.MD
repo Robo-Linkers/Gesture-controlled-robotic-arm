@@ -12,6 +12,6 @@ A detailed list of all electronic components, including ICs, resistors, capacito
 [Electrical](./Bill_of_Materials_Electrical.pdf)
 
 ## 📂 Mechanical BOM
-A comprehensive list of all mechanical parts, including motors, servos, structural components, and fasteners for the arm assembly.
+A comprehensive list of all mechanical parts, structural components, and fasteners for the arm assembly.
 
-[Mechanical](./B)
+[Mechanical](./Bill_of_Materials_Mechanical.pdf)

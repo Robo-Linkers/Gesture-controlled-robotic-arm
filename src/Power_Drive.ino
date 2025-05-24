@@ -46,7 +46,7 @@ void updateServos();
 void mqttCallback(char *topic, byte *message, unsigned int length);
 int angleToPulse(int angle);
 void controlStepper(float angle);
-void smoothStartToAngle(int channel, int targetAngle, int delayMs = 20);
+void smoothStartToAngle(int channel, int targetAngle, int assumedStart = 90,  int delayMs = 20);
 
 /**
  * @brief Initializes the serial communication, I2C bus, PWM servo driver, and stepper motor.
@@ -72,11 +72,18 @@ void setup()
     pwm.begin();
     pwm.setPWMFreq(50);
 
-    stepper.setMaxSpeed(3000);
-    stepper.setAcceleration(3000);
+    stepper.setMaxSpeed(500);
+    stepper.setAcceleration(2500);
 
-    smoothStartToAngle(SHOULDER_SERVO,0);
-    smoothStartToAngle(ELBOW_SERVO,0);
+    smoothStartToAngle(SHOULDER_SERVO,90,135);
+    shoulderAngle = 90;
+    prevAngles[0] = 90; 
+
+    smoothStartToAngle(ELBOW_SERVO,0,45);
+    elbowAngle = 0;
+    prevAngles[1] = 0;
+
+    smoothStartToAngle(WRIST_SERVO,0,180);
 
     WiFi.begin(ssid, password);
     mqttClient.setServer(mqttServer, mqttPort);
@@ -140,8 +147,8 @@ void mqttCallback(char* topic, byte* message, unsigned int length) {
     int grip;
     sscanf(data.c_str(), "SX:%f,SY2:%f,ST:%f,GR:%d", &angleServoX, &angleServoY2, &angleStepperY, &grip);
 
-    shoulderAngle = map(angleServoX, -90, 90, 0, 180);
-    elbowAngle = map(angleServoY2, -90, 90, 0, 180);
+    shoulderAngle = constrain(map(angleServoX, -90, 90, 90, 160), 90, 160);
+    elbowAngle = constrain(map(angleServoY2, -90, 90, 0, 90), 0, 90);
     gripperClosed = grip;
 
     controlStepper(angleStepperY);
@@ -221,18 +228,19 @@ void updateLedStatus() {
 }
 
 
+
 /**
- * @brief Smoothly moves a servo motor to a target angle from an assumed starting angle.
- *        The servo motor will be moved to the target angle in a smooth, incremental manner.
- *        The assumed starting angle is 90 degrees.
- *        The delay between each incremental movement is specified by the delayMs parameter.
- *        The servo motor will move to the specified angle and stop.
- * @param[in] channel PWM channel to control the servo motor.
- * @param[in] targetAngle Target angle to move the servo motor to, in degrees.
- * @param[in] delayMs Delay between each incremental movement, in milliseconds. Default is 20ms.
+ * @brief Smoothly moves a servo motor from an assumed starting position to a target position.
+ * @param[in] channel The channel number of the servo motor to move.
+ * @param[in] targetAngle The target angle of the servo motor.
+ * @param[in] assumedStart The assumed starting angle of the servo motor.
+ * @param[in] delayMs The delay in milliseconds between each step of the sweep.
+ * @details
+ * - The function sweeps the servo motor from the assumed starting angle to the target angle.
+ * - The sweep is done in either an ascending or descending order based on the comparison of the target angle and the assumed starting angle.
+ * - The delay between each step of the sweep is specified by the user.
  */
-void smoothStartToAngle(int channel, int targetAngle, int delayMs) {
-  int assumedStart = 90;
+void smoothStartToAngle(int channel, int targetAngle, int assumedStart, int delayMs) {
 
   // Sweep from assumed position to target
   if (targetAngle < assumedStart) {
