@@ -82,8 +82,6 @@ Control is facilitated through a **wearable glove interface**, equipped with **f
 Once you've uploaded both codes to the respective boards, your setup should be ready for further testing.
 
 - For building the hardware and assembling the robotic arm, refer to the detailed setup and wiring instructions in the [DESIGN.MD](./designs/DESIGN.MD) file. This includes schematics, PCB & hardware designs, and wiring connections necessary to physically construct the system.
-- All Markdown files are available as HTML in the [docs/](./docs) section — check it out for easy browsing and reference.
-- [README.HTML](https://html-preview.github.io/?url=https://github.com/Robo-Linkers/Gesture-controlled-robotic-arm/blob/main/docs/README.html), [DESIGN.HTML](https://html-preview.github.io/?url=https://github.com/Robo-Linkers/Gesture-controlled-robotic-arm/blob/main/docs/DESIGN.html), [TESTS.HTML](https://html-preview.github.io/?url=https://github.com/Robo-Linkers/Gesture-controlled-robotic-arm/blob/main/docs/TESTS.html), [BOM.HTML](https://html-preview.github.io/?url=https://github.com/Robo-Linkers/Gesture-controlled-robotic-arm/blob/main/docs/BOM.html)
 
 ---
 
