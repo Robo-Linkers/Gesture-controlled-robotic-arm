@@ -149,11 +149,6 @@ Gesture-controlled-robotic-arm/
 │           BASE-v14-solid-edge.asm
 │           BASE-v14-solid-edge.cfg
 │
-├───docs
-│       DESIGN.html
-│       README.html
-│       BOM.html
-│       TESTS.html
 ├───src
 │       Glove.ino
 │       Power_Drive.ino
