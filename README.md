@@ -220,11 +220,14 @@ Gesture-controlled-robotic-arm/
      onmouseout="this.style.transform='scale(1)';"/>
 </div>
 
-<p align="center">
-  <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcjE2bHg2YmQ1NnB0djk2eHB3MDBjc2M3bG1ha3QydXNoejNuM2ExbyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/qNKk6NpZxprVG1LxhV/giphy.gif" 
+<div style="text-align: center; margin-bottom: 30px;">
+  <img src="./assets/images/robo-arm.gif" 
        alt="Robotic Arm Assembly Animation" 
-       width="800">
-</p>
+       width="800"
+       style="border: 2px solid #ccc; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: transform 0.3s, box-shadow 0.3s;"
+       onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 0 20px rgba(0, 150, 255, 0.6)';"
+       onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.2)';"/>
+</div>
 
 <a href="https://youtu.be/gThoyyOTZfw" target="_blank" style="font-size: 1.7em;">
   <i class="fa-brands fa-youtube fa-bounce"></i> Watch on YouTube
