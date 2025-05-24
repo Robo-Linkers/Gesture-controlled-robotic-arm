@@ -194,7 +194,7 @@ Gesture-controlled-robotic-arm/
 
 <!-- Add vids, images etc -->
 <div align="center">
-<img src="../assets/images/robotic-arm-front-view.jpg" 
+<img src="./assets/images/robotic-arm-front-view.jpg" 
      alt="Robotic Arm Front View" 
      width="800"
      style="border: 2px solid #ccc; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: transform 0.3s; margin-bottom: 30px;"
@@ -203,7 +203,7 @@ Gesture-controlled-robotic-arm/
 </div>
 
 <div align="center">
-<img src="../assets/images/robotic-arm-side-view.jpg" 
+<img src="./assets/images/robotic-arm-side-view.jpg" 
      alt="Robotic Arm Side View" 
      width="800"
      style="border: 2px solid #ccc; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: transform 0.3s; margin-bottom: 30px;"
@@ -212,7 +212,7 @@ Gesture-controlled-robotic-arm/
 </div>
 
 <div align="center">
-<img src="../assets/images/robotic-arm-glove.jpg" 
+<img src="./assets/images/robotic-arm-glove.jpg" 
      alt="Robotic Arm Glove View" 
      width="800"
      style="border: 2px solid #ccc; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: transform 0.3s; margin-bottom: 30px;"
