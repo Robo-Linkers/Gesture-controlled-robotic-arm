@@ -1,19 +1,23 @@
 # Required Libraries for Gesture-Controlled Robotic Arm Project
+# Install them in the Arduino IDE via Sketch > Include Library > Manage Libraries,
+# searching for the exact names below.
 
-# WiFi library for ESP32
-WiFi.h
+# Board support (Boards Manager): "esp32" by Espressif Systems
+# Provides WiFi.h and Wire.h, so they are not installed separately.
 
 # MQTT Client library
-PubSubClient.h
+PubSubClient (by Nick O'Leary)
 
-# I2C library
-Wire.h
-
-# MPU6050 library for motion sensors
-MPU6050.h
+# MPU6050 library for motion sensors (used by src/Glove.ino)
+MPU6050 (by Electronic Cats)
 
 # PWM Servo Driver library
-Adafruit_PWMServoDriver.h
+Adafruit PWM Servo Driver Library (by Adafruit)
 
 # AccelStepper library for controlling stepper motors
-AccelStepper.h
+AccelStepper (by Mike McCauley)
+
+# Only needed for the sketches in tests/Embedded Systems
+# (Library Manager will offer to install their dependencies, e.g. Adafruit BusIO)
+Adafruit MPU6050 (by Adafruit)
+Adafruit Unified Sensor (by Adafruit)
