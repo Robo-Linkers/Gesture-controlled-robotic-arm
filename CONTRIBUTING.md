@@ -10,7 +10,7 @@ How to Contribute
 
 
 ```bash
-git clone https://github.com/Robo-Linkers/Gesture-controlled-robotic-arm.git
+git clone https://github.com/<your-username>/Gesture-controlled-robotic-arm.git
 ```
 3. Create a New Branch
 - Create a branch for your changes:
@@ -22,7 +22,7 @@ git checkout -b feature/your-feature-name
 - Add new features, fix bugs, or improve documentation.
 - Ensure your code follows the project's coding standards and is well-documented.
 
-1. Test Your Changes
+5. Test Your Changes
 - Thoroughly test your changes to ensure they work as expected.
 - If applicable, add tests to cover new functionality.
 
