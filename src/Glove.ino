@@ -31,7 +31,8 @@ float biasServoX = 0, biasServoY2 = 0, biasStepperY = 0;
 float P_ServoX[2][2] = {{1, 0}, {0, 1}};
 float P_ServoY2[2][2] = {{1, 0}, {0, 1}};
 float P_StepperY[2][2] = {{1, 0}, {0, 1}};
-const float kalmanQ = 0.001, kalmanR = 0.03, dt = 0.05; // Smooth update delay
+const long interval = 200; // Adjusted update interval for smooth transition
+const float kalmanQ = 0.001, kalmanR = 0.03, dt = interval / 1000.0; // dt (s) must match the loop interval
 bool gripLatched = false;                               // Latched grip state
 bool lastTouchState = LOW;                              // Previous sensor state
 unsigned long lastDebounceTime = 0;
@@ -47,7 +48,6 @@ void sendAnglesToMQTT(float angleServoX, float angleServoY2, float angleStepperY
 
 // Delay for smoother updates
 unsigned long previousMillis = 0;
-const long interval = 200; // Adjusted update interval for smooth transition
 
 /**
  * @brief Initializes the serial communication, I2C bus, and MPU6050 sensors.
@@ -204,10 +204,11 @@ void kalmanFilter(float &angle, float &bias, float newAngle, float newRate, floa
     float y = newAngle - angle;
     angle += K[0] * y;
     bias += K[1] * y;
-    P[0][0] -= K[0] * P[0][0];
-    P[0][1] -= K[0] * P[0][1];
-    P[1][0] -= K[1] * P[0][0];
-    P[1][1] -= K[1] * P[0][1];
+    float P00_temp = P[0][0], P01_temp = P[0][1]; // values from before the update
+    P[0][0] -= K[0] * P00_temp;
+    P[0][1] -= K[0] * P01_temp;
+    P[1][0] -= K[1] * P00_temp;
+    P[1][1] -= K[1] * P01_temp;
 }
 
 /**

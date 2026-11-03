@@ -23,6 +23,7 @@ The `tests` folder is organized into two main categories:
     -   `COMPLETE`: Contains a completed embedded systems project.
     -   `DUAL-MPU6050`: Contains tests for a dual MPU6050 sensor setup.
     -   `FLEX-SENSORS`: Contains tests for flex sensors.
+    -   `KALMAN-HOST-TEST`: Hardware-free check of the Kalman filter in `src/Glove.ino`, run on a PC with `python kalman_test.py`.
 
 -   **Power Electronics**: Contains tests related to power electronics projects.
 
